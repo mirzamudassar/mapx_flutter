@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "220225579902",
+    "project_id": "map-x-436c9",
+    "storage_bucket": "map-x-436c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220225579902:android:cd955a6690aeab5e69a12f",
+        "android_client_info": {
+          "package_name": "com.netsinternational.mapx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220225579902-58cj5nlqljhesp2bg10f3vrip3kn6ufk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgo4wSy1I7hNfYPn8UnzNmUea5JNqK6Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220225579902-58cj5nlqljhesp2bg10f3vrip3kn6ufk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "220225579902-n8at6ttrhfqmdj30j055vd5m49st4i44.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.netsinternational.mapx"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220225579902:android:63619df59ffcc4da69a12f",
+        "android_client_info": {
+          "package_name": "com.netsinternational.mapx.mapx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220225579902-58cj5nlqljhesp2bg10f3vrip3kn6ufk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgo4wSy1I7hNfYPn8UnzNmUea5JNqK6Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220225579902-58cj5nlqljhesp2bg10f3vrip3kn6ufk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "220225579902-n8at6ttrhfqmdj30j055vd5m49st4i44.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.netsinternational.mapx"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
