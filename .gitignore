@@ -1,0 +1,38 @@
+# Flutter/Dart specific files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+.vscode/
+.packages
+.pub-cache/
+build/
+ios/Pods/
+android/.gradle/
+android/app/build/
+*.iml
+*.log
+
+# Compiled files
+*.log
+*.ini
+*.lock
+*.bak
+
+# Dependency files
+*.idea
+*.iml
+*.ipr
+*.iws
+
+# macOS
+.DS_Store
+
+# Android
+/local.properties
+
+# Flutter Gallery example application
+/flutter_gallery/**/build/
+/flutter_gallery/**/android/**/build/
+/flutter_gallery/**/ios/**/Pods/
+/flutter_gallery/**/ios/**/.symlinks/
