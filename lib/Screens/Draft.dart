@@ -109,20 +109,214 @@ class _DraftState extends State<DraftPage> with SingleTickerProviderStateMixin {
   }
 }
 
+// class DraftWidgets extends StatelessWidget {
+//   const DraftWidgets({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const SingleChildScrollView(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           SizedBox(
+//             height: 100,
+//           ),
+//           // GridWidget()
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class DraftWidgets extends StatelessWidget {
   const DraftWidgets({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 100,
-          ),
-          // GridWidget()
-        ],
+    return Padding(
+      padding: EdgeInsets.only(top: 120), // Add space from the top
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (int columnIndex = 0; columnIndex < 2; columnIndex++)
+              Expanded(
+                child: Column(
+                  children: [
+                    for (int rowIndex = 0; rowIndex < 3; rowIndex++)
+                      SizedBox(
+                        height: 235,
+                        child: Container(
+                          width: 166,
+                          height: 211,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Container(
+                                  width: 166,
+                                  height: 211,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment(0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [
+                                        Colors.white,
+                                        Colors.white.withOpacity(0)
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border(
+                                      left: BorderSide(
+                                          width: 0, color: Color(0xFF7FBE42)),
+                                      top: BorderSide(
+                                          width: 3, color: Color(0xFF7FBE42)),
+                                      right: BorderSide(
+                                          width: 0, color: Color(0xFF7FBE42)),
+                                      bottom: BorderSide(
+                                          width: 0, color: Color(0xFF7FBE42)),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0x0F000000),
+                                        blurRadius: 24,
+                                        offset: Offset(6, 4),
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 17,
+                                top: 24,
+                                child: Container(
+                                  width: 99,
+                                  height: 41,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Duct Section No.',
+                                        style: TextStyle(
+                                          color: Color(0xFF2E2F2E),
+                                          fontSize: 12,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      Text(
+                                        '341234145245',
+                                        style: TextStyle(
+                                          color: Color(0xFF2E2F2E),
+                                          fontSize: 12,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 17,
+                                top: 91,
+                                child: Container(
+                                  width: 59,
+                                  height: 41,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Status',
+                                        style: TextStyle(
+                                          color: Color(0xFF2E2F2E),
+                                          fontSize: 12,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Submitted',
+                                        style: TextStyle(
+                                          color: Color(0xFF2E2F2E),
+                                          fontSize: 12,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 17,
+                                top: 158,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Add your button click logic here
+                                    print("Details Button Pressed");
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    elevation:
+                                        2, // Control the shadow elevation
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                          width: 0.50,
+                                          color: Color(0xFFBFD4AB)),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'See Details',
+                                        style: TextStyle(
+                                          color: Color(0xFF646464),
+                                          fontSize: 12,
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 25,
+                                top: 163,
+                                child: Container(
+                                  width: 18,
+                                  height: 18,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Add any children widgets as needed
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -143,7 +337,7 @@ class _CardRowWidget extends State<CardRowWidget> {
     return const Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [DraftCard() ],
+      children: [DraftCard()],
     );
   }
 }
