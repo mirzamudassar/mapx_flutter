@@ -126,13 +126,18 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString('user_id', responseData['user_id']);
         prefs.setString('user_role', responseData['user_role']);
         prefs.setString('username', responseData['username']);
-
+        
         // Navigate to the dashboard
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Dashboard()),
         );
       } else {
+
+              // MotionToast.error(
+              //                   title: Text("Error"),
+              //                   description: Text("Please enter your name"))
+              //               .show(context);
         // Handle different response status codes here
         print('Login failed: ${response.statusCode}');
       }
