@@ -4,8 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:mapx/Database/MapXDB.dart';
-import 'package:mapx/Screens/A55Form_11.dart';
-import 'package:mapx/Screens/Network.dart';
+import 'package:mapx/Screens/Login.dart';
 import 'package:mapx/Screens/Splash.dart';
 import 'package:mapx/firebase_options.dart';
 
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
         colorScheme: const ColorScheme.light(), // Use default color scheme
         textTheme: const TextTheme(bodyLarge: TextStyle(fontFamily: "Inter")),
       ),
-      home: const A55_11PageWidgets(),
+      home: const LoginPage(),
       // home: const DraftPage(),
     );
   }

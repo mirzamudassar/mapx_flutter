@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Modals/SidebarMenu.dart';
 import 'package:mapx/Screens/Draft.dart';
 import 'package:mapx/Screens/Login.dart';
 import 'package:mapx/Screens/Network.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'A55Form_2.dart';
 
 class SideMenu extends StatefulWidget {
@@ -62,26 +62,23 @@ class _SideMenuState extends State<SideMenu> {
                       menu: menu,
                       press: () {
                         setState(() {
-
                           selectedMenu = menu;
-                          
                         });
                         if (menu.title == "A55") {
-        // Navigate to the A55 screen here
+                          // Navigate to the A55 screen here
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => A55_2Page()));
-
-      }
-      else if (menu.title == "Network") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => A55_2Page()));
+                        } else if (menu.title == "Network") {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Network()));
-                        } 
-      
+                        }
                       },
- isActive: menu == selectedMenu
- ),
+                      isActive: menu == selectedMenu),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -105,7 +102,6 @@ class _SideMenuState extends State<SideMenu> {
                           selectedMenu = menu;
                         });
                         if (menu.title == "Draft") {
-                          print("Entered Here");
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -121,16 +117,17 @@ class _SideMenuState extends State<SideMenu> {
                           //     MaterialPageRoute(
                           //         builder: (context) => ReviewSectionScreen()));
                         } else if (menu.title == "Logout") {
-  // Clear shared preferences here
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
+                          // Clear shared preferences here
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.clear();
 
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const LoginPage()),
-  );
-}
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                          );
+                        }
                       },
                       isActive: menu == selectedMenu),
                 ),

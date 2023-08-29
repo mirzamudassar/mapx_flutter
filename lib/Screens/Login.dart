@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mapx/Screens/Dashboard.dart';
 import 'dart:convert'; // Add this import
 import 'package:http/http.dart' as http; // Add this import
-import 'package:shared_preferences/shared_preferences.dart';  
+import 'package:motion_toast/motion_toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,11 +14,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _passwordVisible = false;
-  FocusNode _emailFocusNode = FocusNode();
-  FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
-  final TextEditingController _emailController = TextEditingController(); // Add this
-  final TextEditingController _passwordController = TextEditingController(); // Add this
+  final TextEditingController _emailController =
+      TextEditingController(); // Add this
+  final TextEditingController _passwordController =
+      TextEditingController(); // Add this
 
   @override
   void dispose() {
@@ -100,52 +103,52 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-        ElevatedButton(
-  onPressed: () async {
-    // Construct the request payload
-    final Map<String, String> requestData = {
-      'email': _emailController.text,
-      'password': _passwordController.text,
-    };
+                ElevatedButton(
+                  onPressed: () async {
+                    // Construct the request payload
+                    final Map<String, String> requestData = {
+                      'email': _emailController.text,
+                      'password': _passwordController.text,
+                    };
 
-    final Uri uri = Uri.parse('https://test2.nets-x-map.com/mobilelogin');
+                    final Uri uri =
+                        Uri.parse('https://test2.nets-x-map.com/mobilelogin');
 
-    try {
-      final response = await http.post(
-        uri,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(requestData),
-      );
+                    try {
+                      final response = await http.post(
+                        uri,
+                        headers: {'Content-Type': 'application/json'},
+                        body: jsonEncode(requestData),
+                      );
 
+                      if (response.statusCode == 200) {
+                        final responseData = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
+                        // Save user preferences using shared_preferences
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('user_id', responseData['user_id']);
+                        prefs.setString('user_role', responseData['user_role']);
+                        prefs.setString('username', responseData['username']);
 
-        // Save user preferences using shared_preferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('user_id', responseData['user_id']);
-        prefs.setString('user_role', responseData['user_role']);
-        prefs.setString('username', responseData['username']);
-        
-        // Navigate to the dashboard
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Dashboard()),
-        );
-      } else {
-
-              // MotionToast.error(
-              //                   title: Text("Error"),
-              //                   description: Text("Please enter your name"))
-              //               .show(context);
-        // Handle different response status codes here
-        print('Login failed: ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Error during login: $error');
-    }
-  },
-   style: ElevatedButton.styleFrom(
+                        // Navigate to the dashboard
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Dashboard()),
+                        );
+                      } else {
+                        MotionToast.error(
+                                title: Text("Error"),
+                                description: Text(response.body))
+                            .show(context);
+                        // Handle different response status codes here
+                        print('Login failed: ${response.statusCode}');
+                      }
+                    } catch (error) {
+                      print('Error during login: $error');
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
                     primary: const Color(0xFF6EB544),
                     minimumSize: const Size.fromHeight(50),
                     shape: RoundedRectangleBorder(
@@ -168,4 +171,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-  // ... rest of the button widget code ...
+// ... rest of the button widget code ...
