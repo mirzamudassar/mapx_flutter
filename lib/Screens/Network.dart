@@ -51,7 +51,7 @@ class _NetworkState extends State<Network> with SingleTickerProviderStateMixin {
             width: 288,
             left: isMenuBarOpen ? 0 : -288,
             height: MediaQuery.of(context).size.height,
-            child: const SideMenu(itemSelected: 5),
+            child: const SideMenu(itemSelected: 4),
           ),
           Transform(
             alignment: Alignment.center,

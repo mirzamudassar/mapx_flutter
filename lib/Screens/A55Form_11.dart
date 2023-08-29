@@ -54,7 +54,7 @@ class _A55_11PageState extends State<A55_11Page> with SingleTickerProviderStateM
             width: 288,
             left: isMenuBarOpen ? 0 : -288,
             height: MediaQuery.of(context).size.height,
-            child: const SideMenu(itemSelected: 5),
+            child: const SideMenu(itemSelected: 1),
           ),
           Transform(
             alignment: Alignment.center,
@@ -294,6 +294,11 @@ class MenuBar extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
 // A55_11PageWidgets 
 class A55_11PageWidgets extends StatefulWidget {
   const A55_11PageWidgets ({super.key});
@@ -303,41 +308,222 @@ class A55_11PageWidgets extends StatefulWidget {
 
 class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
   File? _image;
+  File? _image2;
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().getImage(source: source);
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
     if (pickedImage != null) {
       setState(() {
         _image = File(pickedImage.path);
       });
     }
   }
+  Future<void> _pickImage2(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image2 = File(pickedImage.path);
+      });
+    }
+  }
+  //  Future<void> _pickImage_camera(ImageSource source) async {
+  //   final pickedImage = await ImagePicker().pickImage( source: ImageSource.camera, maxWidth: 180,
+  //     maxHeight: 180);
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       _image = File(pickedImage.path);
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(title: Text("Image Upload and Display")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _image == null
-                ? Text("No image selected")
-                : Image.file(_image!),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _pickImage(ImageSource.gallery),
-              child: Text("Pick Image from Gallery"),
-            ),
-            ElevatedButton(
-              onPressed: () => _pickImage(ImageSource.camera),
-              child: Text("Take Image with Camera"),
-            ),
+       body: SingleChildScrollView(
+         child: Column(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 120),
+                Stack(
+                  alignment: Alignment.centerLeft,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 280),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.green,
+                        size: 24,
+                      ),
+                    ),
+                    Container(
+                      width: 260,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFBEC5BE),
+                      ),
+                    ),
+                    Container(
+                      width: 290,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF3D9F46),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2), // Add space between lines and text
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        right: 10, left: 40), // Increase left padding here
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Site',
+                          style: TextStyle(fontSize: 10, color: Colors.green),
+                        ),
+                        SizedBox(width: 40), // Increase space between lines
+                        Text(
+                          'Cabling',
+                          style: TextStyle(fontSize: 10, color: Colors.green),
+                        ),
+                        SizedBox(width: 40), // Default space between lines
+                        Text(
+                          'Measurement',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFF3D9F46),
+                          ),
+                        ),
+                        SizedBox(width: 40), // Default space between lines
+                        Text(
+                          'Images',
+                          style: TextStyle(fontSize: 10, color: Color(0xFF3D9F46),),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 70),
+                 _image != null ? Image.file(_image!) : SizedBox.shrink(),
+                Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Logic for the "Add Chamber" button
+                  _pickImage(ImageSource.gallery);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFECFFD9),
+                    onPrimary: Color(0xff555555),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Color(0xFF7FBE42), // Set the border color here
+                      ),
+                    ),
+                    minimumSize: Size(350, 40), // Set the minimum width here
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add), // Add icon on the left
+                      SizedBox(
+                        width: 8, // Adjust spacing as needed
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8), // Adjust left padding
+                        child: Text("Add Chamber"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height:70),
+               _image2 != null ? Image.file(_image2!) : SizedBox.shrink(),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Logic for the "Add Chamber" button
+                    _pickImage2(ImageSource.gallery);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFECFFD9),
+                    onPrimary: Color(0xff555555),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Color(0xFF7FBE42), // Set the border color here
+                      ),
+                    ),
+                    minimumSize: Size(350, 40), // Set the minimum width here
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.add), // Add icon on the left
+                      SizedBox(
+                        width: 8, // Adjust spacing as needed
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8), // Adjust left padding
+                        child: Text("Add Chamber"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 150),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Add your onPressed logic here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_10Page(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.green,
+                      ),
+                      child: Text("BACK"),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () {
+                        
+                       
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onPrimary: Colors.white,
+                      ),
+                      child: Text("NEXT"),
+                    ),
+                  ),
+                ],
+              ),
+       
+          ]),
           ],
-        ),
-      ),
+             ),
+       ),
     );
   }
 }
-
-

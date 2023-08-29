@@ -50,7 +50,7 @@ class _A55_3PageState extends State<A55_3Page> with SingleTickerProviderStateMix
             width: 288,
             left: isMenuBarOpen ? 0 : -288,
             height: MediaQuery.of(context).size.height,
-            child: const SideMenu(itemSelected: 5),
+            child: const SideMenu(itemSelected: 1),
           ),
           Transform(
             alignment: Alignment.center,
