@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -18,8 +20,24 @@ class _DashboardState extends State<Dashboard>
   late Animation<double> animation;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
+    
+
+//     // Get user preferences
+// SharedPreferences prefs = await SharedPreferences.getInstance();
+
+// String userId = prefs.getString('user_id') ?? '';
+// String userRole = prefs.getString('user_role') ?? '';
+// String username = prefs.getString('username') ?? '';
+
+// // Now you can use the retrieved data
+// print('User ID: $userId');
+// print('User Role: $userRole');
+// print('Username: $username');
+
+  
+    
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(() {
@@ -108,6 +126,20 @@ class _DashboardState extends State<Dashboard>
       ),
     );
   }
+
+Future<String?> getUserDetails() async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('user_id') ?? '';
+String userRole = prefs.getString('user_role') ?? '';
+String username = prefs.getString('username') ?? '';
+
+    return username ?? "";
+  } catch (e) {
+    print(e.toString());
+    return null; // or handle the exception in an appropriate way
+  }
+}
 }
 
 class DashboardWidgets extends StatelessWidget {

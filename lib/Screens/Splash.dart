@@ -29,6 +29,31 @@ class _SplashState extends State<Splash> {
   }
 }
 
+
+// class _SplashState extends State<Splash> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     _navigate();
+//   }
+
+//   _navigate() async {
+//     await Future.delayed(const Duration(milliseconds: 2000));
+
+//     // Check if user details are present in shared preferences
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String userId = prefs.getString('user_id') ?? ''; // You can choose any key that makes sense
+
+//     if (userId.isNotEmpty) {
+//       // User details found, navigate to the dashboard
+//       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+//     } else {
+//       // User details not found, navigate to the login screen
+//       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Intro()));
+//     }
+//   }
+
+
 class FullScreenImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

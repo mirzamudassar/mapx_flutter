@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:mapx/Database/MapXDB.dart';
-import 'package:mapx/Screens/NetworkScreen.dart';
+import 'package:mapx/Screens/Network.dart';
 import 'package:mapx/Screens/Splash.dart';
 import 'package:mapx/firebase_options.dart';
 
@@ -24,7 +24,10 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class MyApp extends StatelessWidget {
         colorScheme: const ColorScheme.light(), // Use default color scheme
         textTheme: const TextTheme(bodyLarge: TextStyle(fontFamily: "Inter")),
       ),
-      home: const NetworkScreen(),
+      home: const Splash(),
       // home: const DraftPage(),
     );
   }

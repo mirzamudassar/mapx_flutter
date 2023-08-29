@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Intro extends StatefulWidget {
   const Intro({super.key});
@@ -74,15 +76,25 @@ class _IntroState extends State<Intro> {
                               setState(() {
                                 loading = true;
                               });
-                              Future.delayed(const Duration(seconds: 3), () {
+                              Future.delayed(const Duration(seconds: 3), () async {
                                 setState(() {
                                   loading = false;
                                 });
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString('user_id') ?? ''; // You can choose any key that makes sense
+
+    if (userId.isNotEmpty) {
+      // User details found, navigate to the dashboard
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+    } else {
+      // User details not found, navigate to the login screen
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  LoginPage()));
+    }
+                                // Navigator.pushReplacement(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const LoginPage()));
                               });
                             },
                       style: ElevatedButton.styleFrom(
