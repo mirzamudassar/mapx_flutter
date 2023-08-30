@@ -8,7 +8,7 @@ import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:motion_toast/motion_toast.dart';
 
 
 class Network extends StatefulWidget {
@@ -181,7 +181,7 @@ class _NetworkWidgetsState extends State<NetworkWidgets> {
   File? _image3;
   File? _image4;
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final String apiUrl = "https://test2.nets-x-map.com/mobileNetworkPost";
 
   TextEditingController userIdController = TextEditingController();
@@ -252,16 +252,26 @@ Future<void> _submitForm() async {
 
         if (response.statusCode == 200) {
           // Handle successful response
-          print("Form submitted successfully");
+          // print("Form submitted successfully");
+          MotionToast.success(
+                                title: Text("Success"),
+                                description: Text(response.body))
+                            .show(context);
+
         } else {
+          MotionToast.error(
+                                title: Text("Error"),
+                                description: Text(response.body))
+                            .show(context);
           // Handle error response
-          print("Error submitting form: ${response.body}");
+          // print("Error submitting form: ${response.body}");
         }
       } catch (e) {
         print("Error: $e");
       }
     
   }
+
 
 
   Future<void> _pickImage(ImageSource source) async {
@@ -497,7 +507,8 @@ Future<void> _submitForm() async {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+
                     _submitForm();
                     // Handle the Next button press
                     // You can navigate to the next screen or perform an action here

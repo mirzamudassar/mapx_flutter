@@ -1,12 +1,16 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mapx/Modals/A55Form.dart';
+import 'package:mapx/Modals/DataModel_A55.dart';
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'A55Form_3.dart';
+import 'package:http/http.dart' as http;
 
 class A55_2Page extends StatefulWidget {
   const A55_2Page ({super.key});
@@ -19,6 +23,10 @@ class _A55_2PageState extends State<A55_2Page> with SingleTickerProviderStateMix
   bool isMenuBarOpen = false;
   late AnimationController _animationController;
   late Animation<double> animation;
+  
+  get http => null;
+
+
 
   @override
   void initState() {
@@ -133,8 +141,32 @@ class _A55_2PageState extends State<A55_2Page> with SingleTickerProviderStateMix
 // }
 
 
-class A55_2PageWidgets extends StatelessWidget {
+class A55_2PageWidgets extends StatefulWidget {
   const A55_2PageWidgets ({Key? key}) : super(key: key);
+
+  @override
+  State<A55_2PageWidgets> createState() => _A55_2PageWidgetsState();
+}
+
+class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
+
+  Future<void> submitData(BlockageData data) async {
+  final apiUrl = "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
+
+  final response = await http.post(Uri.parse(apiUrl), body: jsonEncode(data.toJson()));
+
+  if (response.statusCode == 200) {
+    // Data successfully sent to the server
+    print("Data submitted successfully!");
+  } else {
+    // Handle error
+    print("Error submitting data. Status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+  }
+}
+
+ final TextEditingController _areaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
