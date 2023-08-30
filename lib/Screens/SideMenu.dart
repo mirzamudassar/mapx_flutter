@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mapx/Modals/SidebarMenu.dart';
+import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/Draft.dart';
 import 'package:mapx/Screens/Login.dart';
 import 'package:mapx/Screens/Network.dart';
@@ -76,6 +77,12 @@ class _SideMenuState extends State<SideMenu> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Network()));
+                        }
+                        else if (menu.title == "Dashboard") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Dashboard()));
                         }
                       },
                       isActive: menu == selectedMenu),

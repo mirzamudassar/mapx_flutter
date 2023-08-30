@@ -438,7 +438,7 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8), // Adjust left padding
-                        child: Text("Add Chamber"),
+                        child: Text("Upload Image"),
                       ),
                     ],
                   ),
@@ -472,7 +472,7 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8), // Adjust left padding
-                        child: Text("Add Chamber"),
+                        child: Text("Upload Image"),
                       ),
                     ],
                   ),

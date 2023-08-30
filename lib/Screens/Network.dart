@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 
 class Network extends StatefulWidget {
@@ -164,9 +167,139 @@ class MenuBar extends StatelessWidget {
 
 
 
-class NetworkWidgets extends StatelessWidget {
+class NetworkWidgets extends StatefulWidget {
   
   const NetworkWidgets({super.key});
+
+  @override
+  State<NetworkWidgets> createState() => _NetworkWidgetsState();
+}
+
+class _NetworkWidgetsState extends State<NetworkWidgets> {
+  File? _image;
+  File? _image2;
+  File? _image3;
+  File? _image4;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final String apiUrl = "https://test2.nets-x-map.com/mobileNetworkPost";
+
+  TextEditingController userIdController = TextEditingController();
+  TextEditingController siteController = TextEditingController();
+  TextEditingController areaController = TextEditingController();
+  TextEditingController exchangeController = TextEditingController();
+  TextEditingController crfController = TextEditingController();
+  TextEditingController orReferenceController = TextEditingController();
+  TextEditingController noiController = TextEditingController();
+  TextEditingController issue1Controller = TextEditingController();
+  TextEditingController cpNameController = TextEditingController();
+  TextEditingController idPoleController = TextEditingController();
+  TextEditingController latitudeController = TextEditingController();
+  TextEditingController longitudeController = TextEditingController();
+  TextEditingController adressController = TextEditingController();
+  TextEditingController issue2Controller = TextEditingController();
+  TextEditingController issueNoteController = TextEditingController();
+  TextEditingController excitingWiresController = TextEditingController();
+  TextEditingController forecastWiresController = TextEditingController();
+  TextEditingController furnitureIssueController = TextEditingController();
+  TextEditingController maxPoleCapacityController = TextEditingController();
+  TextEditingController gridReferenceController = TextEditingController();
+  TextEditingController thirdIssueController = TextEditingController();
+  TextEditingController dpIdController = TextEditingController();
+
+
+Future<void> _submitForm() async {
+   String? image1Base64 = _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+    String? image2Base64 = _image2 != null ? base64Encode(_image2!.readAsBytesSync()) : null;
+    String? image3Base64 = _image3 != null ? base64Encode(_image3!.readAsBytesSync()) : null;
+    String? image4Base64 = _image4 != null ? base64Encode(_image4!.readAsBytesSync()) : null;
+
+    
+      // Create the request body based on your data
+      Map<String, dynamic> requestData = {
+         "user_id": userIdController.text,
+        "site": siteController.text,
+        "area": areaController.text,
+        "lat": latitudeController.text,
+        "lng": longitudeController.text,
+        "exchange": exchangeController.text,
+        "crf": crfController.text,
+        "or_reference": orReferenceController.text,
+        "noi": noiController.text,
+        "issue": issue1Controller.text,
+        "cp_name": cpNameController.text,
+        "dp_id": dpIdController.text,
+        "secondIssue": issue2Controller.text,
+        "issue_note": issueNoteController.text,
+        "exciting_wires": excitingWiresController.text,
+        "forcost_wires": forecastWiresController.text,
+        "furniture_issue": furnitureIssueController.text,
+        "max_pole_capacity": maxPoleCapacityController.text,
+        "third_issue": thirdIssueController.text,
+        "pic_one": image1Base64,
+      "picTwo": image2Base64,
+      "picThird": image3Base64,
+      "picFourth": image4Base64,
+        
+      };
+
+      try {
+        final response = await http.post(
+          Uri.parse(apiUrl),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(requestData),
+        );
+
+        if (response.statusCode == 200) {
+          // Handle successful response
+          print("Form submitted successfully");
+        } else {
+          // Handle error response
+          print("Error submitting form: ${response.body}");
+        }
+      } catch (e) {
+        print("Error: $e");
+      }
+    
+  }
+
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
+   Future<void> _pickImage2(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image2 = File(pickedImage.path);
+      });
+    }
+  }
+   Future<void> _pickImage3(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image3 = File(pickedImage.path);
+      });
+    }
+  }
+    Future<void> _pickImage4(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image4 = File(pickedImage.path);
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -175,7 +308,16 @@ class NetworkWidgets extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height:120),
+            SizedBox(height: 150),
+            RoundedTextField(
+                label: "User Id", hintText: "Enter your Answer"),
+              SizedBox(height: 35),
+            RoundedTextField(
+              label: "Site", hintText: "Enter your Answer"),
+              SizedBox(height: 35),
+            RoundedTextField(
+                label: "Area", hintText: "Enter your Answer"),
+            SizedBox(height:35),
             RoundedTextField(label: "Exchange", hintText: "Enter exchange name"),
             SizedBox(height: 35),
             RoundedTextField(label: "CRF", hintText: "Enter CRF"),
@@ -185,16 +327,13 @@ class NetworkWidgets extends StatelessWidget {
             SizedBox(height: 35),
             RoundedTextField(label: "NOI", hintText: "Enter NOI"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Issue", hintText: "Enter Issue"),
-            SizedBox(height: 35),
-            RoundedDateField(label: "Date", hintText: "Enter date"),
-    
+            RoundedTextField(label: "Issue1", hintText: "Enter Issue"),
+           
             SizedBox(height: 35),
             RoundedTextField(label: "CP Name", hintText: "Enter CP name"),
             SizedBox(height: 35),
             RoundedTextField(label: "ID Pole", hintText: "Enter Id Pole"),
-            SizedBox(height: 35),
-            RoundedTextField(label: "Post Code", hintText: "Enter Post Code"),
+     
             SizedBox(height: 35),
             RoundedTextField(label: "Latitude", hintText: "Enter Latitude"),
             SizedBox(height: 35),
@@ -204,7 +343,7 @@ class NetworkWidgets extends StatelessWidget {
             SizedBox(height: 35),
             RoundedTextField(label: "DP Id", hintText: "Enter Dp Id"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Issue", hintText: "Enter issue"),
+            RoundedTextField(label: "Second Issue", hintText: "Enter issue"),
             SizedBox(height: 35),
             RoundedTextField(label: "Issue Note", hintText: "Enter Issue Note"),
             SizedBox(height: 35),
@@ -220,7 +359,14 @@ class NetworkWidgets extends StatelessWidget {
             RoundedTextField(
                 label: "Maximun Pole Capacity", hintText: "Enter your Answer"),
             SizedBox(height: 35),
-            Text("Picture",
+            RoundedTextField(
+                label: "Grid Reference", hintText: "Enter your Answer"),    
+            SizedBox(height: 35),
+       
+            RoundedTextField(
+                label: "Third Issue", hintText: "Enter your Answer"),
+           SizedBox(height: 20),
+            Text("Picture1",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -240,7 +386,84 @@ class NetworkWidgets extends StatelessWidget {
                 child: IconButton(
                   icon: Icon(Icons.upload_file),
                   onPressed: () {
-                    print("Upload image pressed");
+                     _pickImage(ImageSource.gallery);
+                  },
+                ),
+              ),
+            ),SizedBox(height: 15),
+            Text("Picture2",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                )),
+            SizedBox(height: 10), // Add some space below the "Picture" text
+            Container(
+              width: 250, // Adjust the width of the box
+              height: 150, // Adjust the height of the box
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFF3D9F46),
+                  style: BorderStyle.solid,
+                  width: 1,
+                ),
+              ),
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.upload_file),
+                  onPressed: () {
+                     _pickImage2(ImageSource.gallery);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Text("Picture3",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                )),
+            SizedBox(height: 10), // Add some space below the "Picture" text
+            Container(
+              width: 250, // Adjust the width of the box
+              height: 150, // Adjust the height of the box
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFF3D9F46),
+                  style: BorderStyle.solid,
+                  width: 1,
+                ),
+              ),
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.upload_file),
+                  onPressed: () {
+                     _pickImage3(ImageSource.gallery);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Text("Picture4",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                )),
+            SizedBox(height: 10), // Add some space below the "Picture" text
+            Container(
+              width: 250, // Adjust the width of the box
+              height: 150, // Adjust the height of the box
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xFF3D9F46),
+                  style: BorderStyle.solid,
+                  width: 1,
+                ),
+              ),
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.upload_file),
+                  onPressed: () {
+                     _pickImage4(ImageSource.gallery);
                   },
                 ),
               ),
@@ -275,6 +498,7 @@ class NetworkWidgets extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    _submitForm();
                     // Handle the Next button press
                     // You can navigate to the next screen or perform an action here
                   },
@@ -296,7 +520,6 @@ class NetworkWidgets extends StatelessWidget {
       ),
     );
   }
-  
 }
 
 class RoundedTextField extends StatelessWidget {
