@@ -206,6 +206,7 @@ class _NetworkWidgetsState extends State<NetworkWidgets> {
   TextEditingController gridReferenceController = TextEditingController();
   TextEditingController thirdIssueController = TextEditingController();
   TextEditingController dpIdController = TextEditingController();
+ 
 
 
 Future<void> _submitForm() async {
@@ -225,9 +226,12 @@ Future<void> _submitForm() async {
         "exchange": exchangeController.text,
         "crf": crfController.text,
         "or_reference": orReferenceController.text,
+        "grid_reference": gridReferenceController.text,
         "noi": noiController.text,
         "issue": issue1Controller.text,
         "cp_name": cpNameController.text,
+        "id_pole": idPoleController.text,
+        "address": adressController.text,
         "dp_id": dpIdController.text,
         "secondIssue": issue2Controller.text,
         "issue_note": issueNoteController.text,
@@ -318,62 +322,62 @@ Future<void> _submitForm() async {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: 150),
-            RoundedTextField(
+            SizedBox(height: 110),
+            RoundedTextField(controller: userIdController,
                 label: "User Id", hintText: "Enter your Answer"),
               SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: siteController,
               label: "Site", hintText: "Enter your Answer"),
               SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: areaController,
                 label: "Area", hintText: "Enter your Answer"),
             SizedBox(height:35),
-            RoundedTextField(label: "Exchange", hintText: "Enter exchange name"),
+            RoundedTextField(controller: exchangeController,label: "Exchange", hintText: "Enter exchange name"),
             SizedBox(height: 35),
-            RoundedTextField(label: "CRF", hintText: "Enter CRF"),
+            RoundedTextField(controller: crfController,label: "CRF", hintText: "Enter CRF"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: orReferenceController,
                 label: "OR Reference", hintText: "Enter OR Reference"),
             SizedBox(height: 35),
-            RoundedTextField(label: "NOI", hintText: "Enter NOI"),
+            RoundedTextField(controller: noiController,label: "NOI", hintText: "Enter NOI"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Issue1", hintText: "Enter Issue"),
+            RoundedTextField(controller: issue1Controller,label: "Issue1", hintText: "Enter Issue"),
            
             SizedBox(height: 35),
-            RoundedTextField(label: "CP Name", hintText: "Enter CP name"),
+            RoundedTextField(controller: cpNameController,label: "CP Name", hintText: "Enter CP name"),
             SizedBox(height: 35),
-            RoundedTextField(label: "ID Pole", hintText: "Enter Id Pole"),
+            RoundedTextField(controller: idPoleController,label: "ID Pole", hintText: "Enter Id Pole"),
      
             SizedBox(height: 35),
-            RoundedTextField(label: "Latitude", hintText: "Enter Latitude"),
+            RoundedTextField(controller: latitudeController,label: "Latitude", hintText: "Enter Latitude"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Longitude", hintText: "Enter Longitude"),
+            RoundedTextField(controller: longitudeController,label: "Longitude", hintText: "Enter Longitude"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Adress", hintText: "Enter your Adress"),
+            RoundedTextField(controller: adressController,label: "Adress", hintText: "Enter your Adress"),
             SizedBox(height: 35),
-            RoundedTextField(label: "DP Id", hintText: "Enter Dp Id"),
+            RoundedTextField(controller: dpIdController,label: "DP Id", hintText: "Enter Dp Id"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Second Issue", hintText: "Enter issue"),
+            RoundedTextField(controller: issue2Controller,label: "Second Issue", hintText: "Enter issue"),
             SizedBox(height: 35),
-            RoundedTextField(label: "Issue Note", hintText: "Enter Issue Note"),
+            RoundedTextField(controller: issueNoteController,label: "Issue Note", hintText: "Enter Issue Note"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: excitingWiresController,
                 label: "Exciting Wires", hintText: "Enter your Answer"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: forecastWiresController,
                 label: "Forecast Wires", hintText: "Enter your Answer"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: furnitureIssueController,
                 label: "Furniture Issue", hintText: "Enter your Answer"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: maxPoleCapacityController,
                 label: "Maximun Pole Capacity", hintText: "Enter your Answer"),
             SizedBox(height: 35),
-            RoundedTextField(
+            RoundedTextField(controller: gridReferenceController,
                 label: "Grid Reference", hintText: "Enter your Answer"),    
             SizedBox(height: 35),
        
-            RoundedTextField(
+            RoundedTextField(controller: thirdIssueController,
                 label: "Third Issue", hintText: "Enter your Answer"),
            SizedBox(height: 20),
             Text("Picture1",
@@ -509,7 +513,14 @@ Future<void> _submitForm() async {
                 ElevatedButton(
                   onPressed: () async {
 
+                    print("User Id: ${userIdController.text}");
+    print("Site: ${siteController.text}");
+    // ... Print other controller data ...
+    
+    print("Image 1 path: ${_image?.path}");
+    print("Image 2 path: ${_image2?.path}");
                     _submitForm();
+                    
                     // Handle the Next button press
                     // You can navigate to the next screen or perform an action here
                   },
@@ -537,8 +548,9 @@ class RoundedTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final IconData? icon;
+  final TextEditingController controller; // Add this line
 
-  RoundedTextField({required this.label, required this.hintText, this.icon});
+  RoundedTextField({required this.label, required this.hintText, this.icon,  required this.controller,});
 
   @override
   Widget build(BuildContext context) {
@@ -553,6 +565,7 @@ class RoundedTextField extends StatelessWidget {
             border: Border.all(color: Color(0xFFC0D4AC)),
           ),
           child: TextFormField(
+            controller: controller,
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: TextStyle(

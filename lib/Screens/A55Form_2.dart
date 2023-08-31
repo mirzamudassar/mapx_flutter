@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'dart:convert'; // Import the dart:convert package
 import 'package:flutter/material.dart';
-import 'package:mapx/Modals/A55Form.dart';
-import 'package:mapx/Modals/DataModel_A55.dart';
+
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
@@ -150,22 +149,28 @@ class A55_2PageWidgets extends StatefulWidget {
 
 class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
 
-  Future<void> submitData(BlockageData data) async {
+Future<void> sendFormData(String area,String site) async {
   final apiUrl = "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
 
-  final response = await http.post(Uri.parse(apiUrl), body: jsonEncode(data.toJson()));
+  final headers = {'Content-Type': 'application/json'};
+  final body = jsonEncode({'area': area,'site':site}); // Use jsonEncode to format the body
+
+  final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
 
   if (response.statusCode == 200) {
     // Data successfully sent to the server
     print("Data submitted successfully!");
   } else {
     // Handle error
-    print("Error submitting data. Status code: ${response.statusCode}");
+    // print("Error submitting data. Status code: ${response.statusCode}");
     print("Response body: ${response.body}");
   }
 }
 
- final TextEditingController _areaController = TextEditingController();
+
+
+  final TextEditingController _areaController = TextEditingController();
+  final TextEditingController _siteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -217,12 +222,14 @@ class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: _areaController,
               decoration: InputDecoration(
                 labelText: "Enter area of blockage",
                 labelStyle: TextStyle(
                   color: Color(0xff727171), // Font color
                   fontSize: 12, // Font size
                 ),
+              
                 prefixIcon: Icon(
                   Icons.location_on,
                   color: Colors.green,
@@ -241,6 +248,40 @@ class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
                   },
                   icon: Icon(Icons.edit),
                 ),
+              ),
+            ),
+             SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Select Site",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: _siteController,
+              decoration: InputDecoration(
+                labelText: "Enter site",
+                labelStyle: TextStyle(
+                  color: Color(0xff727171), // Font color
+                  fontSize: 12, // Font size
+                ),
+              
+              
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide.none, // Remove the border
+                ),
+                filled: true,
+                fillColor: Colors.grey[200],
+                floatingLabelBehavior:
+                    FloatingLabelBehavior.never, // <- Add this line
+
               ),
             ),
             SizedBox(height: 20),
@@ -271,17 +312,26 @@ class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
                   padding:
                       EdgeInsets.only(left: 20), // Add space between buttons
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Navigate to the new screen A55Form_3
+                   String area = _areaController.text;
+                   String site= _siteController.text;
+                   print("Area value: $area"); // Print the area value to the console
+                   print("Area value: $site"); // Print the area value to the console
+
+
+    // Call the API function to send the form data
+    await sendFormData(area,site);
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => A55_3Page(),
+                          builder: (context) => A55_3Page(formData: area,formsite: site, ),
                         ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
+                      primary: Colors.green,   
                       onPrimary: Colors.white,
                     ),
                     child: Text("NEXT"),

@@ -324,3 +324,5 @@ class MapXDB {
   }
 
 }
+
+//query to countt subited data

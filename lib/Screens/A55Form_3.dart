@@ -1,15 +1,27 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/A55Form_2.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'A55Form_4.dart';
+import 'package:http/http.dart' as http;
 
 class A55_3Page extends StatefulWidget {
-  const A55_3Page ({super.key});
+
+  final String formData;
+  final String formsite;
+
+  
+  const A55_3Page({
+    Key? key, required this.formData,required this.formsite,
+ 
+  }) : super(key: key);
 
   @override
   State<A55_3Page> createState() => _A55_3PageState();
@@ -40,6 +52,8 @@ class _A55_3PageState extends State<A55_3Page> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+   // Access the site from the widget's parameters
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(62, 159, 71, 1.0),
       body: Stack(
@@ -83,7 +97,7 @@ class _A55_3PageState extends State<A55_3Page> with SingleTickerProviderStateMix
                 offset: Offset(animation.value * 288, 0),
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
-                    child: const A55_3PageWidgets())),
+                    child: A55_3PageWidgets(formData: widget.formData,formsite:widget.formsite))),  // Pass formData here
           ),
           Positioned(
             top: 10,
@@ -174,75 +188,6 @@ class DraftCard extends StatelessWidget {
   }
 }
 
-// class _GridState extends State<GridWidget> {
-//   late List<Draft> gridData = [
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//   ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       // Add Expanded here
-//       child: GridView.builder(
-//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2,
-//           mainAxisSpacing: 10.0,
-//           crossAxisSpacing: 10.0,
-//         ),
-//         itemCount: gridData.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           return const Card(
-//             color: Color.fromRGBO(255, 255, 255, 1.0),
-//             elevation: 5,
-//             margin: EdgeInsets.all(20),
-//             child: Padding(
-//               padding: EdgeInsets.all(20),
-//               child: Column(children: [
-//                 Text("Card", style: TextStyle()),
-//               ]),
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
 class MenuBar extends StatelessWidget {
   const MenuBar({Key? key, required this.press, required this.isMenuBarOpen})
       : super(key: key);
@@ -297,39 +242,103 @@ class MenuBar extends StatelessWidget {
 
 
 class A55_3PageWidgets extends StatefulWidget {
-  const A55_3PageWidgets ({Key? key}) : super(key: key);
+   const A55_3PageWidgets({Key? key, required this.formData,required this.formsite,}) : super(key: key);
+
+  final String formData;
+  final String formsite;
+
+  
   @override
   _A55_3PageWidgetsState createState() => _A55_3PageWidgetsState();
 }
 
 class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
-  List<bool> _isSelected = [false, false, false]; // Track button selection
 
+// Initialize with an invalid value
+  File? _image;
+   int _selectedTypeIndex = -1; // Initialize with an invalid value
+  // String? image_chamber;
+  
+
+  Future<void> sendFormData(String area,String site,String chamber1_id,String chamber1_image,String selectedType) async {
+
+
+  String? image_chamber = _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+
+
+  final apiUrl = "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
+
+  final headers = {'Content-Type': 'application/json'};
+  final body = jsonEncode({'area': area,'site':site,'chamber1':chamber1_id,'chamber1_1':image_chamber,'selectedType': selectedType,}); // Use jsonEncode to format the body
+
+  final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+
+  if (response.statusCode == 200) {
+    // Data successfully sent to the server
+    print("Data submitted successfully!");
+  } else {
+    // Handle error
+    print("Error submitting data. Status code: ${response.statusCode}");
+    print("Response body: ${response.body}");
+  }
+}
+final TextEditingController _chamberidController = TextEditingController();
+
+
+ List<bool> _isSelected = [false, false, false]; // Track button selection
+
+  // void _onButtonPressed(int index) {
+  //   setState(() {
+  //     for (int buttonIndex = 0;
+  //         buttonIndex < _isSelected.length;
+  //         buttonIndex++) {
+  //       if (buttonIndex == index) {
+  //         _isSelected[buttonIndex] = !_isSelected[buttonIndex];
+  //       } else {
+  //         _isSelected[buttonIndex] = false;
+  //       }
+  //     }
+  //   });
+  // }
   void _onButtonPressed(int index) {
-    setState(() {
-      for (int buttonIndex = 0;
-          buttonIndex < _isSelected.length;
-          buttonIndex++) {
-        if (buttonIndex == index) {
-          _isSelected[buttonIndex] = !_isSelected[buttonIndex];
-        } else {
-          _isSelected[buttonIndex] = false;
-        }
+  setState(() {
+    for (int buttonIndex = 0; buttonIndex < _isSelected.length; buttonIndex++) {
+      if (buttonIndex == index) {
+        _isSelected[buttonIndex] = !_isSelected[buttonIndex];
+        _selectedTypeIndex = index; // Store the selected type index
+      } else {
+        _isSelected[buttonIndex] = false;
       }
-    });
+    }
+  });
+}
+
+
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
+      maxHeight: 180);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+     String area = widget.formData; // Access the area from the widget's parameters
+    String site = widget.formsite; 
     return Scaffold(
-    
+   
       body: Column(
         children: [
           SizedBox(height:120),
           Align(
             alignment: Alignment.topCenter,
             child: Text(
-              "Please fill in one form per blockage",
+              "Please Form Data: ${widget.formData} and ${widget.formsite}",
+              // "Please fill in one form per Blockage",
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -397,6 +406,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
+               controller: _chamberidController,
               decoration: InputDecoration(
                 labelText: 'Enter Chamber 1 ID',
                 labelStyle: TextStyle(
@@ -442,6 +452,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
               ElevatedButton(
                 onPressed: () {
                   // Add your onPressed logic here
+                   _pickImage(ImageSource.gallery);
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xfff3f3f3),
@@ -521,8 +532,34 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
               Padding(
                 padding: EdgeInsets.only(left: 20), // Add space between buttons
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async{
                     // Navigate to the new screen A55Form_3
+                     String chamberid= _chamberidController.text;
+
+                    String selectedTypeValue = "";
+
+    if (_selectedTypeIndex == 0) {
+      selectedTypeValue = "l1_soft";
+    } else if (_selectedTypeIndex == 1) {
+      selectedTypeValue = "l1_footway";
+    } else if (_selectedTypeIndex == 2) {
+      selectedTypeValue = "l1_carriageway";
+    }
+
+
+
+  
+                   print("chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
+                   print("area value: $area"); // Print the area value to the console/ Print the area value to the console
+                   print("site value: $site"); // Print the area value to the console/ Print the area value to the console
+
+                   print("_image value: ${_image?.path}"); // Print the area value to the console/ Print the area value to the console
+                   print("type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
+
+
+    // Call the API function to send the form data
+    await sendFormData(area, site, chamberid, _image?.path ?? "", selectedTypeValue);
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -544,6 +581,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
     );
   }
 }
+
 
 class ToggleButtonGroup extends StatelessWidget {
   final List<bool> isSelected;

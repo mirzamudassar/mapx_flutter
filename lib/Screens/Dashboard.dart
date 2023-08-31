@@ -21,8 +21,9 @@ class _DashboardState extends State<Dashboard>
 
   @override
   void initState(){
+
+
     super.initState();
-    
 
 //     // Get user preferences
 // SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,8 +37,7 @@ class _DashboardState extends State<Dashboard>
 // print('User Role: $userRole');
 // print('Username: $username');
 
-  
-    
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(() {
