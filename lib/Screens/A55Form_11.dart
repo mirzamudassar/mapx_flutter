@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mapx/Modals/Draft.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:mapx/Screens/A55Form_10.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -13,7 +14,67 @@ import 'package:mapx/Screens/SideMenu.dart';
 
 
 class A55_11Page extends StatefulWidget {
-  const A55_11Page ({super.key});
+  
+  final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+  final String chamberid2;
+  final String imagePath2;
+  final String selectedTypeValue2;
+  final String L1;
+  final String L2;
+  final String L3;
+  final String cluster;
+  final String exchange;
+  final String pia;
+  final String onsite;
+  final String telephone;
+  final String radiowork;
+
+  final String cp;
+  final String os;
+  final String ductno;
+  final String nocables;
+  final String proposedcables;
+  final String ductdiameter;
+  final String propertyvalue;
+  final String percentagevalue;
+  final String trafficevalue;
+  final String ductvalue;
+  final String boxa;
+  final String boxb;
+  final String bore;
+
+  const A55_11Page({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+    required this.chamberid2,
+    required this.imagePath2,
+    required this.selectedTypeValue2,
+    required this.L1,
+    required this.L2,
+    required this.L3,
+    required this.cluster,
+    required this.exchange,
+    required this.pia,
+    required this.onsite,
+    required this.telephone,
+    required this.radiowork,
+    required this.cp,
+    required this.os,
+    required this.ductno,
+    required this.nocables,
+    required this.proposedcables,
+    required this.ductdiameter,
+ required this.boxa, required this.boxb, required this.bore, required this.propertyvalue, required this.percentagevalue, required this.trafficevalue, required this.ductvalue,
+  }) : super(key: key);
+
 
   @override
   State<A55_11Page> createState() => _A55_11PageState();
@@ -87,7 +148,39 @@ class _A55_11PageState extends State<A55_11Page> with SingleTickerProviderStateM
                 offset: Offset(animation.value * 288, 0),
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
-                    child: const A55_11PageWidgets())),
+                    child:  A55_11PageWidgets(
+
+                        area: widget.area,
+                      site: widget.site,
+                      chamberid: widget.chamberid,
+                      imagePath: widget.imagePath,
+                      selectedTypeValue: widget.selectedTypeValue,
+                      chamberid2: widget.chamberid2,
+                      imagePath2: widget.imagePath2,
+                      selectedTypeValue2: widget.selectedTypeValue2,
+                      L1: widget.L1,
+                      L2: widget.L2,
+                      L3: widget.L3,
+                      cluster: widget.cluster,
+                      exchange: widget.exchange,
+                      pia: widget.pia,
+                      onsite: widget.onsite,
+                      telephone: widget.telephone,
+                      radiowork: widget.radiowork,
+                      cp: widget.cp,
+                      os: widget.os,
+                      ductno: widget.ductno,
+                      nocables: widget.nocables,
+                      proposedcables: widget.proposedcables,
+                      ductdiameter: widget.ductdiameter,
+                      propertyvalue: widget.propertyvalue,
+                      percentagevalue: widget.percentagevalue,
+                      trafficevalue: widget.trafficevalue,
+                      ductvalue: widget.ductvalue,
+                      boxa:widget.boxa,
+                      boxb:widget.boxb,
+                      bore:widget.bore,
+                    ))),
           ),
           Positioned(
             top: 10,
@@ -301,7 +394,68 @@ class MenuBar extends StatelessWidget {
 
 // A55_11PageWidgets 
 class A55_11PageWidgets extends StatefulWidget {
-  const A55_11PageWidgets ({super.key});
+  
+  final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+  final String chamberid2;
+  final String imagePath2;
+  final String selectedTypeValue2;
+  final String L1;
+  final String L2;
+  final String L3;
+  final String cluster;
+  final String exchange;
+  final String pia;
+  final String onsite;
+  final String telephone;
+  final String radiowork;
+
+  final String cp;
+  final String os;
+  final String ductno;
+  final String nocables;
+  final String proposedcables;
+  final String ductdiameter;
+  final String propertyvalue;
+  final String percentagevalue;
+  final String trafficevalue;
+  final String ductvalue;
+  final String boxa;
+  final String boxb;
+  final String bore;
+
+  const A55_11PageWidgets({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+    required this.chamberid2,
+    required this.imagePath2,
+    required this.selectedTypeValue2,
+    required this.L1,
+    required this.L2,
+    required this.L3,
+    required this.cluster,
+    required this.exchange,
+    required this.pia,
+    required this.onsite,
+    required this.telephone,
+    required this.radiowork,
+    required this.cp,
+    required this.os,
+    required this.ductno,
+    required this.nocables,
+    required this.proposedcables,
+    required this.ductdiameter,
+ required this.boxa, required this.boxb, required this.bore, required this.propertyvalue, required this.percentagevalue, required this.trafficevalue, required this.ductvalue,
+  }) : super(key: key);
+
+
   @override
   _A55_11PageWidgetsState createState() => _A55_11PageWidgetsState();
 }
@@ -309,6 +463,100 @@ class A55_11PageWidgets extends StatefulWidget {
 class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
   File? _image;
   File? _image2;
+
+
+   Future<void> sendFormData(
+
+
+
+    String area,
+    String site,
+    String chamber1_id,
+    String chamber1_image,
+    String selectedType,
+    String chamber2_id,
+    String chamber2_image,
+    String selectedType2,
+    String L1,
+    String L2,
+    String L3,
+    String Telephone,
+    String Onsite,
+    String Exchange,
+    String Cluster,
+    String Pia,
+    String Workvalue,
+    String Cp,
+    String Os,
+    String Ductno,
+    String Nocables,
+    String Proposedcables,
+    String Ductdiameter,
+    String Propertyvalue,
+  String Percentagevalue,
+    String Trafficvalue,
+    String Ductvalue,
+    String Boxavalue,
+    String Boxbvalue,
+    String Bore,
+    String apx,
+    String gis,
+  ) async {
+     String? apx= _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+      String? gis = _image2 != null ? base64Encode(_image2!.readAsBytesSync()) : null;
+
+    final apiUrl =
+        "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
+
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'area': area,
+      'site': site,
+      'chamber1': chamber1_id,
+      'chamber1_1': chamber1_image,
+      'selectedType': selectedType,
+      'chamber2': chamber2_id,
+      'chamber2_1': chamber2_image,
+      'selectedType2': selectedType2,
+      'l1_soft': L1,
+      'l2_soft': L2,
+      'l3_soft': L3,
+      'area': Cluster,
+      'exchange': Exchange,
+      'onsite_eng': Onsite,
+      'telephone_no': Telephone,
+      'pia_order_no': Pia,
+      'work_required': Workvalue,
+      'cp_def_ref': Cp,
+      'os_ref': Os,
+      'duct_section_no': Ductno,
+      'no_of_cables_in_bore': Nocables,
+      'proposed_cable': Proposedcables,
+      'proposed_sub_duct_diameter': Ductdiameter,
+      'private_property': Propertyvalue,
+      'percentage_bore_full': Percentagevalue,
+      'traffic_light': Trafficvalue,
+      'duct_type': Ductvalue,
+      'box_A_type': Boxavalue,
+      'box_B_type': Boxbvalue,
+      'bore': Bore,
+      'apx': apx,
+      'gis': gis,
+    }); // Use jsonEncode to format the body
+
+    final response =
+        await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Data successfully sent to the server
+      print("Data submitted successfully!");
+    } else {
+      // Handle error
+      print("Error submitting data. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    }
+  }
+
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
@@ -340,6 +588,36 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
 
   @override
   Widget build(BuildContext context) {
+     String area = widget.area; // Access the area from the widget's parameters
+    String site = widget.site;
+    String chamberid = widget.chamberid;
+    String imagePath = widget.imagePath;
+    String selectedTypeValue = widget.selectedTypeValue;
+    String chamberid2 = widget.chamberid2;
+    String imagePath2 = widget.imagePath2;
+    String selectedTypeValue2 = widget.selectedTypeValue2;
+    String L1 = widget.L1;
+    String L2 = widget.L2;
+    String L3 = widget.L3;
+    String cluster = widget.cluster;
+    String exchange = widget.exchange;
+    String pia = widget.pia;
+    String onsite = widget.onsite;
+    String telephone = widget.telephone;
+    String work = widget.radiowork;
+    String cp = widget.cp;
+    String os =widget.os;
+    String ductno = widget.ductno;
+    String nocables = widget.nocables;
+    String proposedcable = widget.proposedcables;
+    String ductdiameter = widget.ductdiameter;
+    String propertyvalue= widget.propertyvalue;
+    String percentagevalue = widget.percentagevalue;
+    String trafficevalue = widget.trafficevalue;
+    String ductvalue= widget.ductvalue;
+    String boxa = widget.boxa;
+    String boxb = widget.boxb;
+    String bore = widget.bore;
     return Scaffold(
       // appBar: AppBar(title: Text("Image Upload and Display")),
        body: SingleChildScrollView(
@@ -491,7 +769,25 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => A55_10Page(),
+                            builder: (context) => A55_10Page(
+                               area: '',
+                              site: '',
+                              chamberid: '',
+                              imagePath: '',
+                              selectedTypeValue: '',
+                              chamberid2: '',
+                              imagePath2: '',
+                              selectedTypeValue2: '',
+                              L1: '',
+                              L2: '',
+                              L3: '',
+                              cluster: '',
+                              exchange: '',
+                              pia: '',
+                              onsite: '',
+                              telephone: '',
+                              radiowork: '', cp: '', os: '', ductno: '', nocables: '', proposedcables: '', ductdiameter: '', propertyvalue: '', percentagevalue: '', trafficevalue: '', ductvalue: '',
+                            ),
                           ),
                         );
                       },
@@ -506,15 +802,51 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                     padding:
                         EdgeInsets.only(left: 20), // Add space between buttons
                     child: ElevatedButton(
-                      onPressed: () {
-                        
+                      onPressed: () async{
+                          print("_image value: ${_image?.path}");
+                          print("-----"); 
+                          print("_image 222222222 value: ${_image2?.path}"); 
+
+                           await sendFormData(
+                            area,
+                            site,
+                            chamberid,
+                            imagePath,
+                            selectedTypeValue,
+                            chamberid2,
+                            imagePath2,
+                            selectedTypeValue2,
+                            L1,
+                            L2,
+                            L3,
+                            cluster,
+                            exchange,
+                            pia,
+                            telephone,
+                            onsite,
+                            work,
+                             cp,
+                                    os,
+                                    ductno,
+                                    nocables,
+                                    proposedcable,
+                                    ductdiameter,
+                                    propertyvalue,
+                                    percentagevalue,
+                                    trafficevalue,
+                                    ductvalue,
+                                    boxa,
+                                    boxb,
+                                    bore,
+                                    _image?.path ?? "",_image2?.path ?? "",
+                          );
                        
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green,
                         onPrimary: Colors.white,
                       ),
-                      child: Text("NEXT"),
+                      child: Text("Submit"),
                     ),
                   ),
                 ],

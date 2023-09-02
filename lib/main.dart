@@ -25,11 +25,7 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +37,26 @@ class MyApp extends StatelessWidget {
         colorScheme: const ColorScheme.light(), // Use default color scheme
         textTheme: const TextTheme(bodyLarge: TextStyle(fontFamily: "Inter")),
       ),
-      home: const A55_11Page(),
+      home:  A55_11Page(
+         area: '',
+                              site: '',
+                              chamberid: '',
+                              imagePath: '',
+                              selectedTypeValue: '',
+                              chamberid2: '',
+                              imagePath2: '',
+                              selectedTypeValue2: '',
+                              L1: '',
+                              L2: '',
+                              L3: '',
+                              cluster: '',
+                              exchange: '',
+                              pia: '',
+                              onsite: '',
+                              telephone: '',
+                              radiowork: '', cp: '', os: '', ductno: '', nocables: '', proposedcables: '', ductdiameter: '', propertyvalue: '', percentagevalue: '', trafficevalue: '', ductvalue: '', boxa: '', boxb: '', bore: '',
 
+      ),
 
       // home: const A55_11Page(),
       // home: const DraftPage(),

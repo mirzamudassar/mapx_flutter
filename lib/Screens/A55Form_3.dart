@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/A55Form_2.dart';
+import 'package:mapx/Screens/A55Form_6.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -242,7 +243,7 @@ class MenuBar extends StatelessWidget {
 
 
 class A55_3PageWidgets extends StatefulWidget {
-   const A55_3PageWidgets({Key? key, required this.formData,required this.formsite,}) : super(key: key);
+  const A55_3PageWidgets({Key? key, required this.formData,required this.formsite,}) : super(key: key);
 
   final String formData;
   final String formsite;
@@ -278,7 +279,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
     print("Data submitted successfully!");
   } else {
     // Handle error
-    print("Error submitting data. Status code: ${response.statusCode}");
+    // print("Error submitting data. Status code: ${response.statusCode}");
     print("Response body: ${response.body}");
   }
 }
@@ -316,14 +317,18 @@ final TextEditingController _chamberidController = TextEditingController();
 
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage( source: ImageSource.gallery, maxWidth: 180,
-      maxHeight: 180);
-    if (pickedImage != null) {
-      setState(() {
-        _image = File(pickedImage.path);
-      });
-    }
+  final pickedImage = await ImagePicker().pickImage(
+    source: source,
+    maxWidth: 180,
+    maxHeight: 180,
+  );
+  if (pickedImage != null) {
+    setState(() {
+      _image = File(pickedImage.path);
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -559,13 +564,21 @@ final TextEditingController _chamberidController = TextEditingController();
 
     // Call the API function to send the form data
     await sendFormData(area, site, chamberid, _image?.path ?? "", selectedTypeValue);
+    
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => A55_4Page(),
-                      ),
-                    );
+                 Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => A55_6Page(
+      area: area,
+      site: site,
+      chamberid: chamberid,
+      imagePath: _image?.path ?? "",
+      selectedTypeValue: selectedTypeValue,
+    ),
+  ),
+);
+
                   },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green,

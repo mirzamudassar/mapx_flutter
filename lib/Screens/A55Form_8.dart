@@ -1,23 +1,49 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mapx/Modals/Draft.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:mapx/Screens/A55Form_7.dart';
 import 'package:mapx/Screens/A55Form_9.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-
 class A55_8Page extends StatefulWidget {
-  const A55_8Page ({super.key});
+  final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+  final String chamberid2;
+  final String imagePath2;
+  final String selectedTypeValue2;
+  final String L1;
+  final String L2;
+  final String L3;
+
+  const A55_8Page({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+    required this.chamberid2,
+    required this.imagePath2,
+    required this.selectedTypeValue2,
+    required this.L1,
+    required this.L2,
+    required this.L3,
+  }) : super(key: key);
 
   @override
   State<A55_8Page> createState() => _A55_8PageState();
 }
 
-class _A55_8PageState extends State<A55_8Page> with SingleTickerProviderStateMixin {
+class _A55_8PageState extends State<A55_8Page>
+    with SingleTickerProviderStateMixin {
   bool isMenuBarOpen = false;
   late AnimationController _animationController;
   late Animation<double> animation;
@@ -85,7 +111,19 @@ class _A55_8PageState extends State<A55_8Page> with SingleTickerProviderStateMix
                 offset: Offset(animation.value * 288, 0),
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
-                    child: const A55_8PageWidgets())),
+                    child: A55_8PageWidgets(
+                      area: widget.area,
+                      site: widget.site,
+                      chamberid: widget.chamberid,
+                      imagePath: widget.imagePath,
+                      selectedTypeValue: widget.selectedTypeValue,
+                      chamberid2: widget.chamberid2,
+                      imagePath2: widget.imagePath2,
+                      selectedTypeValue2: widget.selectedTypeValue2,
+                      L1: widget.L1,
+                      L2: widget.L2,
+                      L3: widget.L3,
+                    ))),
           ),
           Positioned(
             top: 10,
@@ -134,9 +172,6 @@ class _A55_8PageState extends State<A55_8Page> with SingleTickerProviderStateMix
 //   }
 // }
 
-
-
-
 class CardRowWidget extends StatefulWidget {
   const CardRowWidget({Key? key, required this.row}) : super(key: key);
 
@@ -175,75 +210,6 @@ class DraftCard extends StatelessWidget {
     );
   }
 }
-
-// class _GridState extends State<GridWidget> {
-//   late List<Draft> gridData = [
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//     Draft(
-//         id: 1,
-//         form_id: 1,
-//         form_name: "A55",
-//         duct_section_number: "123456789",
-//         site: "Islamabad",
-//         cluster: "I-10",
-//         date: "Marc 20, 2023",
-//         time: "10:00 AM"),
-//   ];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       // Add Expanded here
-//       child: GridView.builder(
-//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2,
-//           mainAxisSpacing: 10.0,
-//           crossAxisSpacing: 10.0,
-//         ),
-//         itemCount: gridData.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           return const Card(
-//             color: Color.fromRGBO(255, 255, 255, 1.0),
-//             elevation: 5,
-//             margin: EdgeInsets.all(20),
-//             child: Padding(
-//               padding: EdgeInsets.all(20),
-//               child: Column(children: [
-//                 Text("Card", style: TextStyle()),
-//               ]),
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
 
 class MenuBar extends StatelessWidget {
   const MenuBar({Key? key, required this.press, required this.isMenuBarOpen})
@@ -293,428 +259,662 @@ class MenuBar extends StatelessWidget {
   }
 }
 
-
-
-
 class A55_8PageWidgets extends StatefulWidget {
-   const A55_8PageWidgets ({Key? key}) : super(key: key);
+  final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+  final String chamberid2;
+  final String imagePath2;
+  final String selectedTypeValue2;
+  final String L1;
+  final String L2;
+  final String L3;
+
+  const A55_8PageWidgets({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+    required this.chamberid2,
+    required this.imagePath2,
+    required this.selectedTypeValue2,
+    required this.L1,
+    required this.L2,
+    required this.L3,
+  }) : super(key: key);
+
   @override
   State<A55_8PageWidgets> createState() => _A55_8PageWidgetsState();
 }
 
 class _A55_8PageWidgetsState extends State<A55_8PageWidgets> {
   String? value_radio;
+
+  Future<void> sendFormData(
+    String area,
+    String site,
+    String chamber1_id,
+    String chamber1_image,
+    String selectedType,
+    String chamber2_id,
+    String chamber2_image,
+    String selectedType2,
+    String L1,
+    String L2,
+    String L3,
+    String Telephone,
+    String Onsite,
+    String Exchange,
+    String Cluster,
+    String Pia,
+    String Workvalue,
+  ) async {
+    final apiUrl =
+        "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
+
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'area': area,
+      'site': site,
+      'chamber1': chamber1_id,
+      'chamber1_1': chamber1_image,
+      'selectedType': selectedType,
+      'chamber2': chamber2_id,
+      'chamber2_1': chamber2_image,
+      'selectedType2': selectedType2,
+      'l1_soft': L1,
+      'l2_soft': L2,
+      'l3_soft': L3,
+      'area': Cluster,
+      'exchange': Exchange,
+      'onsite_eng': Onsite,
+      'telephone_no': Telephone,
+      'pia_order_no': Pia,
+      'work_required': Workvalue,
+    }); // Use jsonEncode to format the body
+
+    final response =
+        await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Data successfully sent to the server
+      print("Data submitted successfully!");
+    } else {
+      // Handle error
+      print("Error submitting data. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    }
+  }
+
+  final TextEditingController _clusterController = TextEditingController();
+  final TextEditingController _exchangeController = TextEditingController();
+  final TextEditingController _onsiteController = TextEditingController();
+  final TextEditingController _telephoneController = TextEditingController();
+  final TextEditingController _piaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    String area = widget.area; // Access the area from the widget's parameters
+    String site = widget.site;
+    String chamberid = widget.chamberid;
+    String imagePath = widget.imagePath;
+    String selectedTypeValue = widget.selectedTypeValue;
+    String chamberid2 = widget.chamberid2;
+    String imagePath2 = widget.imagePath2;
+    String selectedTypeValue2 = widget.selectedTypeValue2;
+    String L1 = widget.L1;
+    String L2 = widget.L2;
+    String L3 = widget.L3;
+    String cluster = _clusterController.text;
+    String exchange = _exchangeController.text;
+    String pia = _piaController.text;
+    String onsite = _onsiteController.text;
+    String telephone = _telephoneController.text;
+
     return Scaffold(
-      
-      body: Column(
-        children: [
-          Column(
-            children: [
-              SizedBox(height: 120),
-              Stack(
-                alignment: Alignment.centerLeft,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.green,
-                      size: 24,
-                    ),
-                  ),
-                  Container(
-                    width: 290,
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFBEC5BE),
-                    ),
-                  ),
-                  Container(
-                    width: 40,
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF3D9F46),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2), // Add space between lines and text
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      right: 10, left: 40), // Increase left padding here
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Site',
-                        style: TextStyle(fontSize: 10, color: Colors.green),
-                      ),
-                      SizedBox(width: 40), // Increase space between lines
-                      Text(
-                        'Cabling',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                      SizedBox(width: 40), // Default space between lines
-                      Text(
-                        'Measurement',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                      SizedBox(width: 40), // Default space between lines
-                      Text(
-                        'Images',
-                        style: TextStyle(fontSize: 10),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 120),
+                Stack(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Cluster",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20), // Adding spacing
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Cluster 26',
-                    labelStyle: TextStyle(
-                      color: Color(0xff727171), // Font color
-                      fontSize: 12, // Font size
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.green,
+                        size: 24,
                       ),
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
-
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Work Required",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.all(16),
-                      padding: EdgeInsets.all(10),
+                    Container(
+                      width: 290,
+                      height: 2,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
+                        color: Color(0xFFBEC5BE),
+                      ),
+                    ),
+                    Container(
+                      width: 40,
+                      height: 2,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF3D9F46),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2), // Add space between lines and text
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        right: 10, left: 40), // Increase left padding here
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Site',
+                          style: TextStyle(fontSize: 10, color: Colors.green),
+                        ),
+                        SizedBox(width: 40), // Increase space between lines
+                        Text(
+                          'Cabling',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                        SizedBox(width: 40), // Default space between lines
+                        Text(
+                          'Measurement',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                        SizedBox(width: 40), // Default space between lines
+                        Text(
+                          'Images',
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Cluster",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20), // Adding spacing
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: _clusterController,
+                    decoration: InputDecoration(
+                      labelText: 'Cluster 26',
+                      labelStyle: TextStyle(
+                        color: Color(0xff727171), // Font color
+                        fontSize: 12, // Font size
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
                           width: 1,
-                          color: Color(0xFFC0D4AC),
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30),
+
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Work Required",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 1,
+                            color: Color(0xFFC0D4AC),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Radio(
+                              value: "ancilliary",
+                              groupValue: value_radio,
+                              onChanged: (value) {
+                                setState(() {
+                                  value_radio = value.toString();
+                                });
+                                if (value == "ancilliary") {
+                                  sendFormData(
+                                    // Provide the required parameters for "Ancilliary" here.
+                                    area,
+                                    site,
+                                    chamberid,
+                                    imagePath,
+                                    selectedTypeValue,
+                                    chamberid2,
+                                    imagePath2,
+                                    selectedTypeValue2,
+                                    L1,
+                                    L2,
+                                    L3,
+                                    telephone,
+                                    onsite,
+                                    exchange,
+                                    cluster,
+                                    pia,
+                                    value!, // Pass the selected radio button value
+                                  );
+                                }
+                              },
+                            ),
+                            Text("Ancilliary"),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio(
-                            value: "ancilliary",
-                            groupValue: value_radio,
-                            onChanged: (value) {
-                              setState(() {
-                                value_radio = value.toString();
-                              });
-                            },
-                          ),
-                          Text("Ancilliary"),
-                        ],
-                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.all(16),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          width: 1,
-                          color: Color(0xFFC0D4AC),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 1,
+                            color: Color(0xFFC0D4AC),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Radio(
+                              value: "blockage",
+                              groupValue: value_radio,
+                              onChanged: (value) {
+                                setState(() {
+                                  value_radio = value.toString();
+                                });
+                                if (value == "blockage") {
+                                  sendFormData(
+                                    // Provide the required parameters for "Ancilliary" here.
+                                    area,
+                                    site,
+                                    chamberid,
+                                    imagePath,
+                                    selectedTypeValue,
+                                    chamberid2,
+                                    imagePath2,
+                                    selectedTypeValue2,
+                                    L1,
+                                    L2,
+                                    L3,
+                                    telephone,
+                                    onsite,
+                                    exchange,
+                                    cluster,
+                                    pia,
+                                    value!, // Pass the selected radio button value
+                                  );
+                                }
+                              },
+                            ),
+                            Text("Blockage"),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio(
-                            value: "blockage",
-                            groupValue: value_radio,
-                            onChanged: (value) {
-                              setState(() {
-                                value_radio = value.toString();
-                              });
-                            },
-                          ),
-                          Text("Blockage"),
-                        ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Exchange",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
                       ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Exchange",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
                 ),
-              ),
-              SizedBox(height: 10), // Adding spacing
+                SizedBox(height: 10), // Adding spacing
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter Exchange Name',
-                    labelStyle: TextStyle(
-                      color: Color(0xff727171), // Font color
-                      fontSize: 12, // Font size
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: _exchangeController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Exchange Name',
+                      labelStyle: TextStyle(
+                        color: Color(0xff727171), // Font color
+                        fontSize: 12, // Font size
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Onsite Engineer",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Onsite Engineer",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10), // Adding spacing
+                SizedBox(height: 10), // Adding spacing
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter Onsite Engineer Details',
-                    labelStyle: TextStyle(
-                      color: Color(0xff727171), // Font color
-                      fontSize: 12, // Font size
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: _onsiteController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Onsite Engineer Details',
+                      labelStyle: TextStyle(
+                        color: Color(0xff727171), // Font color
+                        fontSize: 12, // Font size
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Telephone No",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Telephone No",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10), // Adding spacing
+                SizedBox(height: 10), // Adding spacing
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter Onsite Telephone No',
-                    labelStyle: TextStyle(
-                      color: Color(0xff727171), // Font color
-                      fontSize: 12, // Font size
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: _telephoneController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Onsite Telephone No',
+                      labelStyle: TextStyle(
+                        color: Color(0xff727171), // Font color
+                        fontSize: 12, // Font size
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "PIA Order No",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "PIA Order No",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10), // Adding spacing
+                SizedBox(height: 10), // Adding spacing
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Enter PIA Order No',
-                    labelStyle: TextStyle(
-                      color: Color(0xff727171), // Font color
-                      fontSize: 12, // Font size
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: _piaController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter PIA Order No',
+                      labelStyle: TextStyle(
+                        color: Color(0xff727171), // Font color
+                        fontSize: 12, // Font size
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 1,
-                        color: Color(0xFFC0D4AC), // Border color
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                          color: Color(0xFFC0D4AC), // Border color
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20), // Adding spacing
+                SizedBox(height: 20), // Adding spacing
 
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.only(right: 20), // Add space between buttons
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Add your onPressed logic here
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => A55_7Page(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.green,
+                ButtonBar(
+                  alignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 20), // Add space between buttons
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Add your onPressed logic here
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => A55_7Page(
+                                area: '',
+                                site: '',
+                                chamberid: '',
+                                imagePath: '',
+                                selectedTypeValue: '',
+                                chamberid2: '',
+                                imagePath2: '',
+                                selectedTypeValue2: '',
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.green,
+                        ),
+                        child: Text("BACK"),
                       ),
-                      child: Text("BACK"),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 20), // Add space between buttons
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Navigate to the new screen A55Form_3
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => A55_9Page(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                        onPrimary: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20), // Add space between buttons
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          // Navigate to the new screen A55Form_3
+                          String cluster = _clusterController.text;
+                          String exchange = _exchangeController.text;
+                          String pia = _piaController.text;
+                          String onsite = _onsiteController.text;
+                          String telephone = _telephoneController.text;
+
+                          print(
+                              "1-----area value: $area"); // Print the area value to the console/ Print the area value to the console
+                          print("1---------site value: $site");
+
+                          print(
+                              "1-----chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
+
+                          print(
+                              "1-----image value: $imagePath"); // Print the area value to the console/ Print the area value to the console
+                          print(
+                              "1-----type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
+
+                          print(
+                              "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
+
+                          print(
+                              "2-----c_image value 2: $imagePath2"); // Print the area value to the console/ Print the area value to the console
+                          print("2-----ctype value: 2 $selectedTypeValue2");
+                          print("2-----LL1 $L1");
+                          print("2-----L2 $L2");
+                          print("2-----L3 $L3");
+
+                          print("2----cluster $cluster");
+                          print("2-----exchange $exchange");
+                          print("2-----pia $pia");
+                          print("2-----telephone $telephone");
+                          print("2-----onsittte $onsite");
+                          print("2-----raadio $value_radio");
+
+                          await sendFormData(
+                            area,
+                            site,
+                            chamberid,
+                            imagePath,
+                            selectedTypeValue,
+                            chamberid2,
+                            imagePath2,
+                            selectedTypeValue2,
+                            L1,
+                            L2,
+                            L3,
+                            cluster,
+                            exchange,
+                            pia,
+                            telephone,
+                            onsite,
+                            value_radio!,
+                          );
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => A55_9Page(
+                                area: area,
+                                site: site,
+                                chamberid: chamberid,
+                                imagePath: imagePath,
+                                selectedTypeValue: selectedTypeValue,
+                                chamberid2: chamberid2,
+                                imagePath2: imagePath2,
+                                selectedTypeValue2: selectedTypeValue2,
+                                L1: L1,
+                                L2: L2,
+                                L3: L3,
+                                cluster: cluster,
+                                exchange: exchange,
+                                pia: pia,
+                                telephone: telephone,
+                                onsite: onsite,
+                                radiowork: value_radio!,
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          onPrimary: Colors.white,
+                        ),
+                        child: Text("NEXT"),
                       ),
-                      child: Text("NEXT"),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
