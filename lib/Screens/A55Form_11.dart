@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
-
+import 'package:motion_toast/motion_toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +11,7 @@ import 'package:mapx/Screens/A55Form_10.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:mapx/Screens/SideMenu.dart';
-
+import 'package:intl/intl.dart'; // Import the 'int
 
 
 class A55_11Page extends StatefulWidget {
@@ -84,6 +85,8 @@ class _A55_11PageState extends State<A55_11Page> with SingleTickerProviderStateM
   bool isMenuBarOpen = false;
   late AnimationController _animationController;
   late Animation<double> animation;
+
+  
 
   @override
   void initState() {
@@ -395,6 +398,7 @@ class MenuBar extends StatelessWidget {
 // A55_11PageWidgets 
 class A55_11PageWidgets extends StatefulWidget {
   
+  
   final String area;
   final String site;
   final String chamberid;
@@ -461,13 +465,28 @@ class A55_11PageWidgets extends StatefulWidget {
 }
 
 class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
+  
+
+  String userId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  _loadUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString('user_id') ?? ''; // Default to an empty string if not found
+    });
+  }
+  
   File? _image;
   File? _image2;
 
 
    Future<void> sendFormData(
-
-
 
     String area,
     String site,
@@ -501,9 +520,11 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
     String Bore,
     String apx,
     String gis,
+    String userId,
   ) async {
      String? apx= _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
       String? gis = _image2 != null ? base64Encode(_image2!.readAsBytesSync()) : null;
+String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     final apiUrl =
         "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
@@ -542,6 +563,14 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
       'bore': Bore,
       'apx': apx,
       'gis': gis,
+      'user_id': userId,
+      "chamber1_2": "", 
+    "chamber1_3": "",  
+    "chamber1_4": "",  
+     "chamber2_2": "",  
+    "chamber2_3": "",  
+    "chamber2_4": ""  ,
+    "date": formattedDate,
     }); // Use jsonEncode to format the body
 
     final response =
@@ -550,7 +579,15 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
     if (response.statusCode == 200) {
       // Data successfully sent to the server
       print("Data submitted successfully!");
+       MotionToast.success(
+                                title: Text("Success"),
+                                description: Text(response.body))
+                            .show(context);
     } else {
+       MotionToast.error(
+                                title: Text("Error"),
+                                description: Text(response.body))
+                            .show(context);
       // Handle error
       print("Error submitting data. Status code: ${response.statusCode}");
       print("Response body: ${response.body}");
@@ -806,6 +843,8 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                           print("_image value: ${_image?.path}");
                           print("-----"); 
                           print("_image 222222222 value: ${_image2?.path}"); 
+                           print("-----"); 
+                          print("userid $userId"); 
 
                            await sendFormData(
                             area,
@@ -838,7 +877,7 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
                                     boxa,
                                     boxb,
                                     bore,
-                                    _image?.path ?? "",_image2?.path ?? "",
+                                    _image?.path ?? "",_image2?.path ?? "",userId,
                           );
                        
                       },

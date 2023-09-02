@@ -550,7 +550,7 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => A55_5Page(),
+                          builder: (context) => A55_5Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '',),
                         ),
                       );
                     },

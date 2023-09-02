@@ -1,5 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/A55Form_4.dart';
@@ -10,7 +12,21 @@ import 'package:latlong2/latlong.dart';
 
 
 class A55_5Page extends StatefulWidget {
-  const A55_5Page ({super.key});
+  final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+
+  const A55_5Page({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+  }) : super(key: key);
+
 
   @override
   State<A55_5Page> createState() => _A55_5PageState();
@@ -84,7 +100,13 @@ class _A55_5PageState extends State<A55_5Page> with SingleTickerProviderStateMix
                 offset: Offset(animation.value * 288, 0),
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
-                    child: const A55_5PageWidgets())),
+                    child: A55_5PageWidgets(
+                       area: widget.area,
+                      site: widget.site,
+                      chamberid: widget.chamberid,
+                      imagePath: widget.imagePath,
+                      selectedTypeValue: widget.selectedTypeValue,
+                    ))),
           ),
           Positioned(
             top: 10,
@@ -293,10 +315,68 @@ class MenuBar extends StatelessWidget {
 }
 
 
-class A55_5PageWidgets extends StatelessWidget {
-   const A55_5PageWidgets ({Key? key}) : super(key: key);
+class A55_5PageWidgets extends StatefulWidget {
+    final String area;
+  final String site;
+  final String chamberid;
+  final String imagePath;
+  final String selectedTypeValue;
+
+  const A55_5PageWidgets({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.selectedTypeValue,
+  }) : super(key: key);
+
+  @override
+  State<A55_5PageWidgets> createState() => _A55_5PageWidgetsState();
+}
+
+class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
+
+   File? _image;
+  int _selectedTypeIndex = -1; // Initialize with an invalid value
+  // String? image_chamber;
+
+  Future<void> sendFormData(String area, String site, String chamber1_id,
+      String chamber1_image, String selectedType) async {
+    String? image_chamber =
+        _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+
+    final apiUrl =
+        "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
+
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'area': area,
+      'site': site,
+      'chamber1': chamber1_id,
+      'chamber1_1': image_chamber,
+      'selectedType': selectedType,
+    }); // Use jsonEncode to format the body
+
+    final response =
+        await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Data successfully sent to the server
+      print("Data submitted successfully!");
+    } else {
+      // Handle error
+      // print("Error submitting data. Status code: ${response.statusCode}");
+      print("Response body: ${response.body}");
+    }
+  }
   @override
   Widget build(BuildContext context) {
+     String area = widget.area; // Access the area from the widget's parameters
+    String site = widget.site;
+    String chamberid = widget.chamberid;
+    String imagePath = widget.imagePath;
+    String selectedTypeValue = widget.selectedTypeValue;
     return Scaffold(
      
       body: Padding(
@@ -412,7 +492,7 @@ class A55_5PageWidgets extends StatelessWidget {
                        Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => A55_4Page(),
+                          builder: (context) => A55_4Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '',),
                         ),
                       );
                     },
@@ -427,14 +507,22 @@ class A55_5PageWidgets extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 20), // Add space between buttons
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
+                        await sendFormData(area, site, chamberid,
+                        _image?.path ?? "", selectedTypeValue);
                       // Navigate to the new screen A55Form_3
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => A55_6Page(),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => A55_6Page(
+                             area: area,
+                          site: site,
+                          chamberid: chamberid,
+                          imagePath: _image?.path ?? "",
+                          selectedTypeValue: selectedTypeValue,
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.green,
