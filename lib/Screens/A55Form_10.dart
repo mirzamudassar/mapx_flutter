@@ -16,9 +16,15 @@ class A55_10Page extends StatefulWidget {
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
   final String chamberid2;
-  final String imagePath2;
+ final String twoimagePath1;
+  final String twoimagePath2;
+  final String twoimagePath3;
+  final String twoimagePath4;
   final String selectedTypeValue2;
   final String L1;
   final String L2;
@@ -46,10 +52,16 @@ class A55_10Page extends StatefulWidget {
     required this.area,
     required this.site,
     required this.chamberid,
-    required this.imagePath,
+     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
     required this.chamberid2,
-    required this.imagePath2,
+    required this.twoimagePath1,
+    required this.twoimagePath2,
+    required this.twoimagePath3,
+    required this.twoimagePath4,
     required this.selectedTypeValue2,
     required this.L1,
     required this.L2,
@@ -149,10 +161,16 @@ class _A55_10PageState extends State<A55_10Page>
                       area: widget.area,
                       site: widget.site,
                       chamberid: widget.chamberid,
-                      imagePath: widget.imagePath,
+                       imagePath: widget.imagePath,
+                      imagePath2: widget.imagePath2,
+                      imagePath3: widget.imagePath3,
+                      imagePath4: widget.imagePath4,
                       selectedTypeValue: widget.selectedTypeValue,
                       chamberid2: widget.chamberid2,
-                      imagePath2: widget.imagePath2,
+                      twoimagePath1: widget.twoimagePath1,
+                      twoimagePath2: widget.twoimagePath2,
+                      twoimagePath3: widget.twoimagePath3,
+                      twoimagePath4: widget.twoimagePath4,
                       selectedTypeValue2: widget.selectedTypeValue2,
                       L1: widget.L1,
                       L2: widget.L2,
@@ -382,10 +400,16 @@ class A55_10PageWidgets extends StatefulWidget {
   final String area;
   final String site;
   final String chamberid;
-  final String imagePath;
+    final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
   final String chamberid2;
-  final String imagePath2;
+   final String twoimagePath1;
+  final String twoimagePath2;
+  final String twoimagePath3;
+  final String twoimagePath4;
   final String selectedTypeValue2;
   final String L1;
   final String L2;
@@ -409,13 +433,19 @@ class A55_10PageWidgets extends StatefulWidget {
 
   const A55_10PageWidgets({
     Key? key,
-    required this.area,
+   required this.area,
     required this.site,
     required this.chamberid,
-    required this.imagePath,
+     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
     required this.chamberid2,
-    required this.imagePath2,
+    required this.twoimagePath1,
+    required this.twoimagePath2,
+    required this.twoimagePath3,
+    required this.twoimagePath4,
     required this.selectedTypeValue2,
     required this.L1,
     required this.L2,
@@ -446,13 +476,13 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
   
 
   Future<void> sendFormData(
-    String area,
+   String area,
     String site,
     String chamber1_id,
-    String chamber1_image,
+     String imagePath, String imagePath2, String imagePath3, String imagePath4,
     String selectedType,
     String chamber2_id,
-    String chamber2_image,
+       String twoimagePath1, String twoimagePath2, String twoimagePath3, String twoimagePath4,
     String selectedType2,
     String L1,
     String L2,
@@ -485,10 +515,16 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
       'area': area,
       'site': site,
       'chamber1': chamber1_id,
-      'chamber1_1': chamber1_image,
+     'chamber1_1': imagePath,
+      'chamber1_2': imagePath2,
+      'chamber1_3': imagePath3,
+      'chamber1_4': imagePath4,
       'selectedType': selectedType,
       'chamber2': chamber2_id,
-      'chamber2_1': chamber2_image,
+       "chamber2_1": twoimagePath1,  // Replace with actual image data
+    "chamber2_2":  twoimagePath2,  // Replace with actual image data
+    "chamber2_3":  twoimagePath3,  // Replace with actual image data
+    "chamber2_4":  twoimagePath4 ,
       'selectedType2': selectedType2,
       'l1_soft': L1,
       'l2_soft': L2,
@@ -537,9 +573,15 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
     String site = widget.site;
     String chamberid = widget.chamberid;
     String imagePath = widget.imagePath;
+    String imagePath2 = widget.imagePath2;
+    String imagePath3 = widget.imagePath3;
+    String imagePath4 = widget.imagePath4;
     String selectedTypeValue = widget.selectedTypeValue;
     String chamberid2 = widget.chamberid2;
-    String imagePath2 = widget.imagePath2;
+    String twoimagePath1 = widget.twoimagePath1;
+    String twoimagePath2 = widget.twoimagePath2;
+    String twoimagePath3 = widget.twoimagePath3;
+    String twoimagePath4 = widget.twoimagePath4;
     String selectedTypeValue2 = widget.selectedTypeValue2;
     String L1 = widget.L1;
     String L2 = widget.L2;
@@ -786,7 +828,7 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
                               imagePath: '',
                               selectedTypeValue: '',
                               chamberid2: '',
-                              imagePath2: '',
+
                               selectedTypeValue2: '',
                               L1: '',
                               L2: '',
@@ -797,6 +839,7 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
                               onsite: '',
                               telephone: '',
                               radiowork: '',
+                              imagePath2: '', imagePath3: '', imagePath4: '', twoimagePath1: '', twoimagePath2: '', twoimagePath3: '', twoimagePath4: ''
                             ),
                           ),
                         );
@@ -824,12 +867,18 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
                         
                           await sendFormData(
                             area,
-                            site,
-                            chamberid,
-                            imagePath,
-                            selectedTypeValue,
-                            chamberid2,
-                            imagePath2,
+                                    site,
+                                    chamberid,
+                                     imagePath ,
+                                     imagePath2,
+                                     imagePath3,
+                                     imagePath4,
+                                    selectedTypeValue,
+                                    chamberid2,
+                                    twoimagePath1,
+                                    twoimagePath2,
+                                    twoimagePath3,
+                                    twoimagePath4,
                             selectedTypeValue2,
                             L1,
                             L2,
@@ -858,13 +907,19 @@ class _A55_10PageWidgetsState extends State<A55_10PageWidgets> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => A55_11Page(
-                               area: area,
-                                site: site,
-                                chamberid: chamberid,
-                                imagePath: imagePath,
-                                selectedTypeValue: selectedTypeValue,
-                                chamberid2: chamberid2,
-                                imagePath2: imagePath2,
+                                area: area,
+                            site: site,
+                            chamberid: chamberid,
+                           imagePath: imagePath,
+                          imagePath2: imagePath,
+                          imagePath3: imagePath,
+                          imagePath4: imagePath,
+                            selectedTypeValue: selectedTypeValue,
+                            chamberid2: chamberid2,
+                            twoimagePath1: twoimagePath1,
+                            twoimagePath2: twoimagePath2,
+                            twoimagePath3: twoimagePath3,
+                            twoimagePath4: twoimagePath4,
                                 selectedTypeValue2: selectedTypeValue2,
                                 L1: L1,
                                 L2: L2,

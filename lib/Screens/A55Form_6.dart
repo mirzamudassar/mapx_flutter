@@ -18,6 +18,9 @@ class A55_6Page extends StatefulWidget {
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
 
   const A55_6Page({
@@ -26,8 +29,12 @@ class A55_6Page extends StatefulWidget {
     required this.site,
     required this.chamberid,
     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
   }) : super(key: key);
+
 
   @override
   State<A55_6Page> createState() => _A55_6PageState();
@@ -103,10 +110,13 @@ class _A55_6PageState extends State<A55_6Page>
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
                     child: A55_6PageWidgets(
-                      area: widget.area,
+                     area: widget.area,
                       site: widget.site,
                       chamberid: widget.chamberid,
                       imagePath: widget.imagePath,
+                      imagePath2: widget.imagePath2,
+                      imagePath3: widget.imagePath3,
+                      imagePath4: widget.imagePath4,
                       selectedTypeValue: widget.selectedTypeValue,
                     ))),
           ),
@@ -245,27 +255,36 @@ class MenuBar extends StatelessWidget {
 }
 
 class A55_6PageWidgets extends StatefulWidget {
-  final String area;
+   final String area;
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
-  const A55_6PageWidgets(
-      {Key? key,
-      required this.area,
-      required this.site,
-      required this.chamberid,
-      required this.imagePath,
-      required this.selectedTypeValue})
-      : super(key: key);
+
+  const A55_6PageWidgets({
+    Key? key,
+    required this.area,
+    required this.site,
+    required this.chamberid,
+    required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
+    required this.selectedTypeValue,
+  }) : super(key: key);
   @override
   _A55_6PageWidgetsState createState() => _A55_6PageWidgetsState();
 }
 
 class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
   // Initialize with an invalid value
-  File? _image;
+File? _image;
   File? _image2;
+  File? _image3;
+  File? _image4;
   int _selectedTypeIndex = -1; // Initialize with an invalid value
   // String? image_chamber;
 
@@ -273,16 +292,21 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
     String area,
     String site,
     String chamber1_id,
-    String chamber1_image,
+     String imagePath, String imagePath2, String imagePath3, String imagePath4,
     String selectedType,
     String chamber2_id,
-    String chamber2_image,
+      String chamber1_image,String chamber2_image,String chamber3_image,String chamber4_image,
     String selectedType2,
   ) async {
     String? image_chamber =
-        _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+        _images[0] != null ? base64Encode(_images[0]!.readAsBytesSync()) : null;
     String? image_chamber2 =
-        _image2 != null ? base64Encode(_image2!.readAsBytesSync()) : null;
+        _images[1] != null ? base64Encode(_images[1]!.readAsBytesSync()) : null;
+    String? image_chamber3 =
+        _images[2] != null ? base64Encode(_images[2]!.readAsBytesSync()) : null;
+    String? image_chamber4 =
+        _images[3] != null ? base64Encode(_images[3]!.readAsBytesSync()) : null;
+
 
     final apiUrl =
         "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
@@ -292,10 +316,16 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
       'area': area,
       'site': site,
       'chamber1': chamber1_id,
-      'chamber1_1': image_chamber,
+      'chamber1_1': imagePath,
+      'chamber1_2': imagePath2,
+      'chamber1_3': imagePath3,
+      'chamber1_4': imagePath4,
       'selectedType': selectedType,
       'chamber2': chamber2_id,
-      'chamber2_1': image_chamber2,
+       "chamber2_1": image_chamber,  // Replace with actual image data
+    "chamber2_2":  image_chamber2,  // Replace with actual image data
+    "chamber2_3":  image_chamber3,  // Replace with actual image data
+    "chamber2_4":  image_chamber4 ,
       'selectedType2': selectedType2,
     }); // Use jsonEncode to format the body
 
@@ -344,24 +374,36 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
     });
   }
 
+ List<File> _images = [];
+
   Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, maxWidth: 180, maxHeight: 180);
-    if (pickedImage != null) {
+    final pickedImages = await ImagePicker().pickMultiImage(
+   
+      maxWidth: 180,
+      maxHeight: 180,
+      imageQuality: 50,
+    );
+    if (pickedImages != null) {
       setState(() {
-        _image2 = File(pickedImage.path);
+        _images = pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
       });
+
+      // Print the file paths of the selected images
+      
+        print('Selected Image Path: $_images.path[0]');
+      
     }
   }
-
   @override
   Widget build(BuildContext context) {
-    String area = widget.area; // Access the area from the widget's parameters
+   String area = widget.area; // Access the area from the widget's parameters
     String site = widget.site;
     String chamberid = widget.chamberid;
     String imagePath = widget.imagePath;
+    String imagePath2 = widget.imagePath2;
+    String imagePath3 = widget.imagePath3;
+    String imagePath4 = widget.imagePath4;
     String selectedTypeValue = widget.selectedTypeValue;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -550,7 +592,7 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => A55_5Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '',),
+                          builder: (context) => A55_5Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '', imagePath2: '', imagePath3: '', imagePath4: '',),
                         ),
                       );
                     },
@@ -594,7 +636,13 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
                           "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
 
                       print(
-                          "2-----c_image value 2: ${_image2?.path}"); // Print the area value to the console/ Print the area value to the console
+                          "_image value: ${_images[0]?.path}"); 
+                           print(
+                          "_image value: ${_images[1]?.path}"); 
+                           print(
+                          "_image value: ${_images[2]?.path}");
+                           print(
+                          "_image value: ${_images[3]?.path}"); // Print the area value to the console/ Print the area value to the console
                       print("2-----ctype value: 2 $selectedTypeValue2");
 
                       // Call the API function to send the form data
@@ -602,10 +650,13 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
                           area,
                           site,
                           chamberid,
-                          imagePath,
+                         imagePath,imagePath2,imagePath3,imagePath4 ,
                           selectedTypeValue,
                           chamberid2,
-                          _image2?.path ?? "",
+                         _images[0]?.path ?? "",
+                           _images[1]?.path ?? "",
+                            _images[2]?.path ?? "",
+                             _images[3]?.path ?? "",
                           selectedTypeValue2);
 
                       // Navigate to the new screen A55Form_3
@@ -616,10 +667,16 @@ class _A55_6PageWidgetsState extends State<A55_6PageWidgets> {
                             area: area,
                             site: site,
                             chamberid: chamberid,
-                            imagePath: _image?.path ?? "",
+                             imagePath: imagePath,
+                          imagePath2: imagePath,
+                          imagePath3: imagePath,
+                          imagePath4: imagePath,
                             selectedTypeValue: selectedTypeValue,
                             chamberid2: chamberid2,
-                            imagePath2: _image2?.path ?? "",
+                            twoimagePath1: _images[0]?.path ?? "",
+                            twoimagePath2: _images[1]?.path ?? "",
+                            twoimagePath3: _images[2]?.path ?? "",
+                            twoimagePath4: _images[3]?.path ?? "",
                             selectedTypeValue2: selectedTypeValue2,
                           ),
                         ),

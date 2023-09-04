@@ -20,9 +20,15 @@ class A55_11Page extends StatefulWidget {
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
   final String chamberid2;
-  final String imagePath2;
+ final String twoimagePath1;
+  final String twoimagePath2;
+  final String twoimagePath3;
+  final String twoimagePath4;
   final String selectedTypeValue2;
   final String L1;
   final String L2;
@@ -53,10 +59,16 @@ class A55_11Page extends StatefulWidget {
     required this.area,
     required this.site,
     required this.chamberid,
-    required this.imagePath,
+     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
     required this.chamberid2,
-    required this.imagePath2,
+    required this.twoimagePath1,
+    required this.twoimagePath2,
+    required this.twoimagePath3,
+    required this.twoimagePath4,
     required this.selectedTypeValue2,
     required this.L1,
     required this.L2,
@@ -156,10 +168,16 @@ class _A55_11PageState extends State<A55_11Page> with SingleTickerProviderStateM
                         area: widget.area,
                       site: widget.site,
                       chamberid: widget.chamberid,
-                      imagePath: widget.imagePath,
+                       imagePath: widget.imagePath,
+                      imagePath2: widget.imagePath2,
+                      imagePath3: widget.imagePath3,
+                      imagePath4: widget.imagePath4,
                       selectedTypeValue: widget.selectedTypeValue,
                       chamberid2: widget.chamberid2,
-                      imagePath2: widget.imagePath2,
+                      twoimagePath1: widget.twoimagePath1,
+                      twoimagePath2: widget.twoimagePath2,
+                      twoimagePath3: widget.twoimagePath3,
+                      twoimagePath4: widget.twoimagePath4,
                       selectedTypeValue2: widget.selectedTypeValue2,
                       L1: widget.L1,
                       L2: widget.L2,
@@ -403,9 +421,15 @@ class A55_11PageWidgets extends StatefulWidget {
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
   final String chamberid2;
-  final String imagePath2;
+ final String twoimagePath1;
+  final String twoimagePath2;
+  final String twoimagePath3;
+  final String twoimagePath4;
   final String selectedTypeValue2;
   final String L1;
   final String L2;
@@ -436,10 +460,16 @@ class A55_11PageWidgets extends StatefulWidget {
     required this.area,
     required this.site,
     required this.chamberid,
-    required this.imagePath,
+     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
     required this.chamberid2,
-    required this.imagePath2,
+    required this.twoimagePath1,
+    required this.twoimagePath2,
+    required this.twoimagePath3,
+    required this.twoimagePath4,
     required this.selectedTypeValue2,
     required this.L1,
     required this.L2,
@@ -491,10 +521,10 @@ class _A55_11PageWidgetsState extends State<A55_11PageWidgets> {
     String area,
     String site,
     String chamber1_id,
-    String chamber1_image,
+     String imagePath, String imagePath2, String imagePath3, String imagePath4,
     String selectedType,
     String chamber2_id,
-    String chamber2_image,
+       String twoimagePath1, String twoimagePath2, String twoimagePath3, String twoimagePath4,
     String selectedType2,
     String L1,
     String L2,
@@ -534,10 +564,16 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
       'area': area,
       'site': site,
       'chamber1': chamber1_id,
-      'chamber1_1': chamber1_image,
+     'chamber1_1': imagePath,
+      'chamber1_2': imagePath2,
+      'chamber1_3': imagePath3,
+      'chamber1_4': imagePath4,
       'selectedType': selectedType,
       'chamber2': chamber2_id,
-      'chamber2_1': chamber2_image,
+       "chamber2_1": twoimagePath1,  // Replace with actual image data
+    "chamber2_2":  twoimagePath2,  // Replace with actual image data
+    "chamber2_3":  twoimagePath3,  // Replace with actual image data
+    "chamber2_4":  twoimagePath4 ,
       'selectedType2': selectedType2,
       'l1_soft': L1,
       'l2_soft': L2,
@@ -564,12 +600,7 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
       'apx': apx,
       'gis': gis,
       'user_id': userId,
-      "chamber1_2": "", 
-    "chamber1_3": "",  
-    "chamber1_4": "",  
-     "chamber2_2": "",  
-    "chamber2_3": "",  
-    "chamber2_4": ""  ,
+      
     "date": formattedDate,
     }); // Use jsonEncode to format the body
 
@@ -625,13 +656,19 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
-     String area = widget.area; // Access the area from the widget's parameters
+    String area = widget.area; // Access the area from the widget's parameters
     String site = widget.site;
     String chamberid = widget.chamberid;
     String imagePath = widget.imagePath;
+    String imagePath2 = widget.imagePath2;
+    String imagePath3 = widget.imagePath3;
+    String imagePath4 = widget.imagePath4;
     String selectedTypeValue = widget.selectedTypeValue;
     String chamberid2 = widget.chamberid2;
-    String imagePath2 = widget.imagePath2;
+    String twoimagePath1 = widget.twoimagePath1;
+    String twoimagePath2 = widget.twoimagePath2;
+    String twoimagePath3 = widget.twoimagePath3;
+    String twoimagePath4 = widget.twoimagePath4;
     String selectedTypeValue2 = widget.selectedTypeValue2;
     String L1 = widget.L1;
     String L2 = widget.L2;
@@ -813,7 +850,7 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
                               imagePath: '',
                               selectedTypeValue: '',
                               chamberid2: '',
-                              imagePath2: '',
+                           
                               selectedTypeValue2: '',
                               L1: '',
                               L2: '',
@@ -823,7 +860,8 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
                               pia: '',
                               onsite: '',
                               telephone: '',
-                              radiowork: '', cp: '', os: '', ductno: '', nocables: '', proposedcables: '', ductdiameter: '', propertyvalue: '', percentagevalue: '', trafficevalue: '', ductvalue: '',
+                              radiowork: '', cp: '', os: '', ductno: '', nocables: '', proposedcables: '', ductdiameter: '', propertyvalue: '', percentagevalue: '', trafficevalue: '', 
+                              imagePath2: '', imagePath3: '', imagePath4: '', twoimagePath1: '', twoimagePath2: '', twoimagePath3: '', twoimagePath4: '',ductvalue: '',
                             ),
                           ),
                         );
@@ -842,7 +880,9 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
                       onPressed: () async{
                           print("_image value: ${_image?.path}");
                           print("-----"); 
-                          print("_image 222222222 value: ${_image2?.path}"); 
+                          print("_image 222222222 value: $imagePath2"); 
+                          print("_image 222222222 value: $imagePath"); 
+                          print("_image 222222222 value: $twoimagePath2"); 
                            print("-----"); 
                           print("userid $userId"); 
 
@@ -850,10 +890,16 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
                             area,
                             site,
                             chamberid,
-                            imagePath,
+                             imagePath ,
+                                     imagePath2,
+                                     imagePath3,
+                                     imagePath4,
                             selectedTypeValue,
                             chamberid2,
-                            imagePath2,
+                             twoimagePath1,
+                                    twoimagePath2,
+                                    twoimagePath3,
+                                    twoimagePath4,
                             selectedTypeValue2,
                             L1,
                             L2,
@@ -879,7 +925,7 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
                                     bore,
                                     _image?.path ?? "",_image2?.path ?? "",userId,
                           );
-                       
+
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green,

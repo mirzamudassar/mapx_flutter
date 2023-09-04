@@ -253,13 +253,24 @@ class A55_3PageWidgets extends StatefulWidget {
 class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
 // Initialize with an invalid value
   File? _image;
+  File? _image2;
+  File? _image3;
+  File? _image4;
   int _selectedTypeIndex = -1; // Initialize with an invalid value
   // String? image_chamber;
 
   Future<void> sendFormData(String area, String site, String chamber1_id,
-      String chamber1_image, String selectedType) async {
+      String chamber1_image,String chamber2_image,String chamber3_image,String chamber4_image, String selectedType) async {
+
+
     String? image_chamber =
-        _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
+        _images[0] != null ? base64Encode(_images[0]!.readAsBytesSync()) : null;
+    String? image_chamber2 =
+        _images[1] != null ? base64Encode(_images[1]!.readAsBytesSync()) : null;
+    String? image_chamber3 =
+        _images[2] != null ? base64Encode(_images[2]!.readAsBytesSync()) : null;
+    String? image_chamber4 =
+        _images[3] != null ? base64Encode(_images[3]!.readAsBytesSync()) : null;
 
     final apiUrl =
         "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
@@ -270,6 +281,9 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
       'site': site,
       'chamber1': chamber1_id,
       'chamber1_1': image_chamber,
+      'chamber1_2': image_chamber2,
+      'chamber1_3': image_chamber3,
+      'chamber1_4': image_chamber4,
       'selectedType': selectedType,
     }); // Use jsonEncode to format the body
 
@@ -282,7 +296,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
     } else {
       // Handle error
       // print("Error submitting data. Status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      print("Response body: $image_chamber");
     }
   }
 
@@ -317,17 +331,24 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
       }
     });
   }
+ List<File> _images = [];
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(
-      source: source,
+    final pickedImages = await ImagePicker().pickMultiImage(
+   
       maxWidth: 180,
       maxHeight: 180,
+      imageQuality: 50,
     );
-    if (pickedImage != null) {
+    if (pickedImages != null) {
       setState(() {
-        _image = File(pickedImage.path);
+        _images = pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
       });
+
+      // Print the file paths of the selected images
+      
+        print('Selected Image Path: $_images.path[0]');
+      
     }
   }
 
@@ -560,13 +581,22 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
                           "site value: $site"); // Print the area value to the console/ Print the area value to the console
       
                       print(
-                          "_image value: ${_image?.path}"); // Print the area value to the console/ Print the area value to the console
+                          "_image value: ${_images[0]?.path}"); 
+                           print(
+                          "_image value: ${_images[1]?.path}"); 
+                           print(
+                          "_image value: ${_images[2]?.path}");
+                           print(
+                          "_image value: ${_images[3]?.path}");  // Print the area value to the console/ Print the area value to the console
                       print(
                           "type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
       
                       // Call the API function to send the form data
                       await sendFormData(area, site, chamberid,
-                          _image?.path ?? "", selectedTypeValue);
+                          _images[0]?.path ?? "",
+                           _images[1]?.path ?? "",
+                            _images[2]?.path ?? "",
+                             _images[3]?.path ?? "", selectedTypeValue);
       
                       Navigator.push(
                         context,
@@ -575,7 +605,10 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
                             area: area,
                             site: site,
                             chamberid: chamberid,
-                            imagePath: _image?.path ?? "",
+                            imagePath:   _images[0]?.path ?? "",
+                            imagePath2:  _images[1]?.path ?? "",
+                            imagePath3: _images[2]?.path ?? "",
+                            imagePath4: _images[3]?.path ?? "",
                             selectedTypeValue: selectedTypeValue,
                           ),
                         ),

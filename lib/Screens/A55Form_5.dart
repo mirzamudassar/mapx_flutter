@@ -12,10 +12,13 @@ import 'package:latlong2/latlong.dart';
 
 
 class A55_5Page extends StatefulWidget {
-  final String area;
+ final String area;
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
 
   const A55_5Page({
@@ -24,6 +27,9 @@ class A55_5Page extends StatefulWidget {
     required this.site,
     required this.chamberid,
     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
   }) : super(key: key);
 
@@ -101,10 +107,13 @@ class _A55_5PageState extends State<A55_5Page> with SingleTickerProviderStateMix
                 child: Transform.scale(
                     scale: isMenuBarOpen ? 0.8 : 1,
                     child: A55_5PageWidgets(
-                       area: widget.area,
+                        area: widget.area,
                       site: widget.site,
                       chamberid: widget.chamberid,
                       imagePath: widget.imagePath,
+                      imagePath2: widget.imagePath2,
+                      imagePath3: widget.imagePath3,
+                      imagePath4: widget.imagePath4,
                       selectedTypeValue: widget.selectedTypeValue,
                     ))),
           ),
@@ -316,10 +325,13 @@ class MenuBar extends StatelessWidget {
 
 
 class A55_5PageWidgets extends StatefulWidget {
-    final String area;
+   final String area;
   final String site;
   final String chamberid;
   final String imagePath;
+  final String imagePath2;
+  final String imagePath3;
+  final String imagePath4;
   final String selectedTypeValue;
 
   const A55_5PageWidgets({
@@ -328,9 +340,11 @@ class A55_5PageWidgets extends StatefulWidget {
     required this.site,
     required this.chamberid,
     required this.imagePath,
+    required this.imagePath2,
+    required this.imagePath3,
+    required this.imagePath4,
     required this.selectedTypeValue,
   }) : super(key: key);
-
   @override
   State<A55_5PageWidgets> createState() => _A55_5PageWidgetsState();
 }
@@ -342,7 +356,7 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
   // String? image_chamber;
 
   Future<void> sendFormData(String area, String site, String chamber1_id,
-      String chamber1_image, String selectedType) async {
+     String imagePath, String imagePath2, String imagePath3, String imagePath4, String selectedType) async {
     String? image_chamber =
         _image != null ? base64Encode(_image!.readAsBytesSync()) : null;
 
@@ -354,7 +368,10 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
       'area': area,
       'site': site,
       'chamber1': chamber1_id,
-      'chamber1_1': image_chamber,
+       'chamber1_1': imagePath,
+      'chamber1_2': imagePath2,
+      'chamber1_3': imagePath3,
+      'chamber1_4': imagePath4,
       'selectedType': selectedType,
     }); // Use jsonEncode to format the body
 
@@ -372,10 +389,13 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
   }
   @override
   Widget build(BuildContext context) {
-     String area = widget.area; // Access the area from the widget's parameters
+      String area = widget.area; // Access the area from the widget's parameters
     String site = widget.site;
     String chamberid = widget.chamberid;
     String imagePath = widget.imagePath;
+    String imagePath2 = widget.imagePath2;
+    String imagePath3 = widget.imagePath3;
+    String imagePath4 = widget.imagePath4;
     String selectedTypeValue = widget.selectedTypeValue;
     return Scaffold(
      
@@ -492,7 +512,7 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
                        Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => A55_4Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '',),
+                          builder: (context) => A55_4Page(area: '', site: '', chamberid: '', imagePath: '', selectedTypeValue: '', imagePath2: '', imagePath3: '', imagePath4: '',),
                         ),
                       );
                     },
@@ -508,8 +528,16 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
                       EdgeInsets.only(left: 20), // Add space between buttons
                   child: ElevatedButton(
                     onPressed: () async{
-                        await sendFormData(area, site, chamberid,
-                        _image?.path ?? "", selectedTypeValue);
+
+
+                        // Call the API function to send the form data
+                       print("$imagePath");
+                       print("$imagePath2");
+                       print("$imagePath3");
+                       print("$imagePath4");
+                    await sendFormData(area, site, chamberid,
+                       imagePath,imagePath2,imagePath3,imagePath4 ,selectedTypeValue);
+
                       // Navigate to the new screen A55Form_3
                       Navigator.push(
                         context,
@@ -518,7 +546,10 @@ class _A55_5PageWidgetsState extends State<A55_5PageWidgets> {
                              area: area,
                           site: site,
                           chamberid: chamberid,
-                          imagePath: _image?.path ?? "",
+                          imagePath: imagePath,
+                          imagePath2: imagePath,
+                          imagePath3: imagePath,
+                          imagePath4: imagePath,
                           selectedTypeValue: selectedTypeValue,
                           ),
                         ),
