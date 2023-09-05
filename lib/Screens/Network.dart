@@ -9,6 +9,7 @@ import 'package:mapx/Screens/SideMenu.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Network extends StatefulWidget {
@@ -176,6 +177,20 @@ class NetworkWidgets extends StatefulWidget {
 }
 
 class _NetworkWidgetsState extends State<NetworkWidgets> {
+   String userId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  _loadUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userId = prefs.getString('user_id') ?? ''; // Default to an empty string if not found
+    });
+  }
   File? _image;
   File? _image2;
   File? _image3;
@@ -218,7 +233,7 @@ Future<void> _submitForm() async {
     
       // Create the request body based on your data
       Map<String, dynamic> requestData = {
-         "user_id": userIdController.text,
+         "user_id":  userId,
         "site": siteController.text,
         "area": areaController.text,
         "lat": latitudeController.text,
@@ -323,9 +338,7 @@ Future<void> _submitForm() async {
         child: Column(
           children: [
             SizedBox(height: 110),
-            RoundedTextField(controller: userIdController,
-                label: "User Id", hintText: "Enter your Answer"),
-              SizedBox(height: 35),
+         
             RoundedTextField(controller: siteController,
               label: "Site", hintText: "Enter your Answer"),
               SizedBox(height: 35),
@@ -513,7 +526,7 @@ Future<void> _submitForm() async {
                 ElevatedButton(
                   onPressed: () async {
 
-                    print("User Id: ${userIdController.text}");
+                    print("User Id: $userId");
     print("Site: ${siteController.text}");
     // ... Print other controller data ...
     
