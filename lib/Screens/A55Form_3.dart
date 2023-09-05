@@ -10,6 +10,7 @@ import 'package:mapx/Screens/A55Form_6.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'A55Form_4.dart';
 import 'package:http/http.dart' as http;
 
@@ -299,8 +300,8 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
       print("Response body: $image_chamber");
     }
   }
-
-  final TextEditingController _chamberidController = TextEditingController();
+ final _formKey = GlobalKey<FormState>(); // Define a form key
+  final TextEditingController? _chamberidController = TextEditingController();
 
   List<bool> _isSelected = [false, false, false]; // Track button selection
 
@@ -359,271 +360,291 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
     String site = widget.formsite;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 120),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                // "Please Form Data: ${widget.formData} and ${widget.formsite}",
-                "Please fill in one form per Blockage",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF6EB544),
+        child: Form(
+           key: _formKey, // Assign the form key
+          child: Column(
+            children: [
+              SizedBox(height: 120),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  // "Please Form Data: ${widget.formData} and ${widget.formsite}",
+                  "Please fill in one form per Blockage",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF6EB544),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                  width: double.infinity,
-                  height: 300,
-                  child: FlutterMap(
-                    options: MapOptions(
-                      center: LatLng(51.509364, -0.128928),
-                      zoom: 3.2,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.app',
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                    width: double.infinity,
+                    height: 300,
+                    child: FlutterMap(
+                      options: MapOptions(
+                        center: LatLng(51.509364, -0.128928),
+                        zoom: 3.2,
                       ),
-                    ],
-                  )),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Select Type",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.example.app',
+                        ),
+                      ],
+                    )),
               ),
-            ),
-            SizedBox(height: 20),
-            ToggleButtonGroup(
-              isSelected: _isSelected,
-              onPressed: _onButtonPressed,
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Enter Chamber 1 ID",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20), // Adding spacing
-      
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _chamberidController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Chamber 1 ID',
-                  labelStyle: TextStyle(
-                    color: Color(0xff727171), // Font color
-                    fontSize: 12, // Font size
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Select Type",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
+                ),
+              ),
+              SizedBox(height: 20),
+              ToggleButtonGroup(
+                isSelected: _isSelected,
+                onPressed: _onButtonPressed,
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter Chamber 1 ID",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
-                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Select Image",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20), // Adding spacing
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your onPressed logic here
-                    _pickImage(ImageSource.gallery);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xfff3f3f3),
-                    shape: RoundedRectangleBorder(
+              SizedBox(height: 20), // Adding spacing
+              
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextFormField(
+                  controller: _chamberidController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Chamber 1 ID',
+                    labelStyle: TextStyle(
+                      color: Color(0xff727171), // Font color
+                      fontSize: 12, // Font size
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check, // Your desired icon
-                        color: Colors.green, // Icon color set to green
-                      ),
-                      SizedBox(width: 8), // Adding space between icon and text
-                      Text(
-                        'Upload File',
-                        style: TextStyle(
-                          color: Color(0xFF656565), // Text color
-                        ),
-                      ),
-                    ],
-                  ),
+                   validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xfff3f3f3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Select Image",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.camera_alt, // Your desired icon
-                        color: Colors.green, // Icon color set to green
-                      ),
-                      SizedBox(width: 8), // Adding space between icon and text
-                      Text(
-                        'Take Image',
-                        style: TextStyle(
-                          color: Color(0xFF656565), // Text color
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
-              ],
-            ),
-            SizedBox(height: 20),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(right: 20), // Add space between buttons
-                  child: ElevatedButton(
+              ),
+              SizedBox(height: 20), // Adding spacing
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
                     onPressed: () {
                       // Add your onPressed logic here
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => A55_2Page(),
-                        ),
-                      );
+                      _pickImage(ImageSource.gallery);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.green,
+                      primary: Color(0xfff3f3f3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    child: Text("BACK"),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20), // Add space between buttons
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // Navigate to the new screen A55Form_3
-                      String chamberid = _chamberidController.text;
-      
-                      String selectedTypeValue = "";
-      
-                      if (_selectedTypeIndex == 0) {
-                        selectedTypeValue = "l1_soft";
-                      } else if (_selectedTypeIndex == 1) {
-                        selectedTypeValue = "l1_footway";
-                      } else if (_selectedTypeIndex == 2) {
-                        selectedTypeValue = "l1_carriageway";
-                      }
-      
-                      print(
-                          "chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
-                      print(
-                          "area value: $area"); // Print the area value to the console/ Print the area value to the console
-                      print(
-                          "site value: $site"); // Print the area value to the console/ Print the area value to the console
-      
-                      print(
-                          "_image value: ${_images[0]?.path}"); 
-                           print(
-                          "_image value: ${_images[1]?.path}"); 
-                           print(
-                          "_image value: ${_images[2]?.path}");
-                           print(
-                          "_image value: ${_images[3]?.path}");  // Print the area value to the console/ Print the area value to the console
-                      print(
-                          "type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
-      
-                      // Call the API function to send the form data
-                      await sendFormData(area, site, chamberid,
-                          _images[0]?.path ?? "",
-                           _images[1]?.path ?? "",
-                            _images[2]?.path ?? "",
-                             _images[3]?.path ?? "", selectedTypeValue);
-      
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => A55_4Page(
-                            area: area,
-                            site: site,
-                            chamberid: chamberid,
-                            imagePath:   _images[0]?.path ?? "",
-                            imagePath2:  _images[1]?.path ?? "",
-                            imagePath3: _images[2]?.path ?? "",
-                            imagePath4: _images[3]?.path ?? "",
-                            selectedTypeValue: selectedTypeValue,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.check, // Your desired icon
+                          color: Colors.green, // Icon color set to green
+                        ),
+                        SizedBox(width: 8), // Adding space between icon and text
+                        Text(
+                          'Upload File',
+                          style: TextStyle(
+                            color: Color(0xFF656565), // Text color
                           ),
                         ),
-                      );
+                      ],
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add your onPressed logic here
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      onPrimary: Colors.white,
+                      primary: Color(0xfff3f3f3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    child: Text("NEXT"),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.camera_alt, // Your desired icon
+                          color: Colors.green, // Icon color set to green
+                        ),
+                        SizedBox(width: 8), // Adding space between icon and text
+                        Text(
+                          'Take Image',
+                          style: TextStyle(
+                            color: Color(0xFF656565), // Text color
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              SizedBox(height: 20),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Add your onPressed logic here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_2Page(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.green,
+                      ),
+                      child: Text("BACK"),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () async {
+                    
+                         if (_formKey.currentState?.validate() ?? false) {
+                           String? chamberid = _chamberidController?.text;
+              
+                        String selectedTypeValue = "";
+              
+                        if (_selectedTypeIndex == 0) {
+                          selectedTypeValue = "l1_soft";
+                        } else if (_selectedTypeIndex == 1) {
+                          selectedTypeValue = "l1_footway";
+                        } else if (_selectedTypeIndex == 2) {
+                          selectedTypeValue = "l1_carriageway";
+                        }
+              
+                        print(
+                            "chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
+                        print(
+                            "area value: $area"); // Print the area value to the console/ Print the area value to the console
+                        print(
+                            "site value: $site"); // Print the area value to the console/ Print the area value to the console
+              
+                        print(
+                            "_image value: ${_images[0]?.path}"); 
+                             print(
+                            "_image value: ${_images[1]?.path}"); 
+                             print(
+                            "_image value: ${_images[2]?.path}");
+                             print(
+                            "_image value: ${_images[3]?.path}");  // Print the area value to the console/ Print the area value to the console
+                        print(
+                            "type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
+              
+                        // Call the API function to send the form data
+                        await sendFormData(area, site, chamberid!,
+                            _images[0]?.path ?? "",
+                             _images[1]?.path ?? "",
+                              _images[2]?.path ?? "",
+                               _images[3]?.path ?? "", selectedTypeValue);
+              
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_4Page(
+                              area: area,
+                              site: site,
+                              chamberid: chamberid,
+                              imagePath:   _images[0]?.path ?? "",
+                              imagePath2:  _images[1]?.path ?? "",
+                              imagePath3: _images[2]?.path ?? "",
+                              imagePath4: _images[3]?.path ?? "",
+                              selectedTypeValue: selectedTypeValue,
+                            ),
+                          ),
+                        );
+
+                         }else{
+ MotionToast.error(
+                                title: Text("Missing Fields"),
+                                description: Text("Please fill missing required Fields"))
+                            .show(context);
+
+                         }
+                       
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onPrimary: Colors.white,
+                      ),
+                      child: Text("NEXT"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

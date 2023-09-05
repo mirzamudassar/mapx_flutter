@@ -9,6 +9,7 @@ import 'package:mapx/Screens/A55Form_9.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class A55_8Page extends StatefulWidget {
   final String area;
@@ -391,6 +392,7 @@ class _A55_8PageWidgetsState extends State<A55_8PageWidgets> {
   final TextEditingController _onsiteController = TextEditingController();
   final TextEditingController _telephoneController = TextEditingController();
   final TextEditingController _piaController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Define a form key
   @override
   Widget build(BuildContext context) {
     String area = widget.area; // Access the area from the widget's parameters
@@ -418,568 +420,611 @@ class _A55_8PageWidgetsState extends State<A55_8PageWidgets> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 120),
-                Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.green,
-                        size: 24,
-                      ),
-                    ),
-                    Container(
-                      width: 290,
-                      height: 2,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFBEC5BE),
-                      ),
-                    ),
-                    Container(
-                      width: 40,
-                      height: 2,
-                      decoration: BoxDecoration(
-                        color: Color(0xFF3D9F46),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 2), // Add space between lines and text
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        right: 10, left: 40), // Increase left padding here
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Site',
-                          style: TextStyle(fontSize: 10, color: Colors.green),
-                        ),
-                        SizedBox(width: 40), // Increase space between lines
-                        Text(
-                          'Cabling',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        SizedBox(width: 40), // Default space between lines
-                        Text(
-                          'Measurement',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                        SizedBox(width: 40), // Default space between lines
-                        Text(
-                          'Images',
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
+        child: Form(
+           key: _formKey, // Assign the form key
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 120),
+                  Stack(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Cluster",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20), // Adding spacing
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _clusterController,
-                    decoration: InputDecoration(
-                      labelText: 'Cluster 26',
-                      labelStyle: TextStyle(
-                        color: Color(0xff727171), // Font color
-                        fontSize: 12, // Font size
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.green,
+                          size: 24,
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Work Required",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(16),
-                        padding: EdgeInsets.all(10),
+                      Container(
+                        width: 290,
+                        height: 2,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
+                          color: Color(0xFFBEC5BE),
+                        ),
+                      ),
+                      Container(
+                        width: 40,
+                        height: 2,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF3D9F46),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2), // Add space between lines and text
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          right: 10, left: 40), // Increase left padding here
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Site',
+                            style: TextStyle(fontSize: 10, color: Colors.green),
+                          ),
+                          SizedBox(width: 40), // Increase space between lines
+                          Text(
+                            'Cabling',
+                            style: TextStyle(fontSize: 10),
+                          ),
+                          SizedBox(width: 40), // Default space between lines
+                          Text(
+                            'Measurement',
+                            style: TextStyle(fontSize: 10),
+                          ),
+                          SizedBox(width: 40), // Default space between lines
+                          Text(
+                            'Images',
+                            style: TextStyle(fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+        
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Cluster",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20), // Adding spacing
+        
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _clusterController,
+                      decoration: InputDecoration(
+                        labelText: 'Cluster 26',
+                        labelStyle: TextStyle(
+                          color: Color(0xff727171), // Font color
+                          fontSize: 12, // Font size
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
                             width: 1,
-                            color: Color(0xFFC0D4AC),
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                    ),
+                  ),
+                  SizedBox(height: 30),
+        
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Work Required",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 1,
+                              color: Color(0xFFC0D4AC),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: "ancilliary",
+                                groupValue: value_radio,
+                                onChanged: (value) {
+                                  setState(() {
+                                    value_radio = value.toString();
+                                  });
+                                  if (value == "ancilliary") {
+                                    sendFormData(
+                                      // Provide the required parameters for "Ancilliary" here.
+                                      area,
+                                      site,
+                                      chamberid,
+                                       imagePath ,
+                                       imagePath2,
+                                       imagePath3,
+                                       imagePath4,
+                                      selectedTypeValue,
+                                      chamberid2,
+                                      twoimagePath1,
+                                      twoimagePath2,
+                                      twoimagePath3,
+                                      twoimagePath4,
+                                      selectedTypeValue2,
+                                      L1,
+                                      L2,
+                                      L3,
+                                      telephone,
+                                      onsite,
+                                      exchange,
+                                      cluster,
+                                      pia,
+                                      value!, // Pass the selected radio button value
+                                    );
+                                  }
+                                },
+                              ),
+                              Text("Ancilliary"),
+                            ],
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Radio(
-                              value: "ancilliary",
-                              groupValue: value_radio,
-                              onChanged: (value) {
-                                setState(() {
-                                  value_radio = value.toString();
-                                });
-                                if (value == "ancilliary") {
-                                  sendFormData(
-                                    // Provide the required parameters for "Ancilliary" here.
-                                    area,
-                                    site,
-                                    chamberid,
-                                     imagePath ,
-                                     imagePath2,
-                                     imagePath3,
-                                     imagePath4,
-                                    selectedTypeValue,
-                                    chamberid2,
-                                    twoimagePath1,
-                                    twoimagePath2,
-                                    twoimagePath3,
-                                    twoimagePath4,
-                                    selectedTypeValue2,
-                                    L1,
-                                    L2,
-                                    L3,
-                                    telephone,
-                                    onsite,
-                                    exchange,
-                                    cluster,
-                                    pia,
-                                    value!, // Pass the selected radio button value
-                                  );
-                                }
-                              },
-                            ),
-                            Text("Ancilliary"),
-                          ],
-                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(16),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            width: 1,
-                            color: Color(0xFFC0D4AC),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 1,
+                              color: Color(0xFFC0D4AC),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Radio(
+                                value: "blockage",
+                                groupValue: value_radio,
+                                onChanged: (value) {
+                                  setState(() {
+                                    value_radio = value.toString();
+                                  });
+                                  if (value == "blockage") {
+                                    sendFormData(
+                                      // Provide the required parameters for "Ancilliary" here.
+                                       area,
+                                      site,
+                                      chamberid,
+                                       imagePath ,
+                                       imagePath2,
+                                       imagePath3,
+                                       imagePath4,
+                                      selectedTypeValue,
+                                      chamberid2,
+                                      twoimagePath1,
+                                      twoimagePath2,
+                                      twoimagePath3,
+                                      twoimagePath4,
+                                      selectedTypeValue2,
+                                      L1,
+                                      L2,
+                                      L3,
+                                      telephone,
+                                      onsite,
+                                      exchange,
+                                      cluster,
+                                      pia,
+                                      value!, // Pass the selected radio button value
+                                    );
+                                  }
+                                },
+                              ),
+                              Text("Blockage"),
+                            ],
                           ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Radio(
-                              value: "blockage",
-                              groupValue: value_radio,
-                              onChanged: (value) {
-                                setState(() {
-                                  value_radio = value.toString();
-                                });
-                                if (value == "blockage") {
-                                  sendFormData(
-                                    // Provide the required parameters for "Ancilliary" here.
-                                     area,
-                                    site,
-                                    chamberid,
-                                     imagePath ,
-                                     imagePath2,
-                                     imagePath3,
-                                     imagePath4,
-                                    selectedTypeValue,
-                                    chamberid2,
-                                    twoimagePath1,
-                                    twoimagePath2,
-                                    twoimagePath3,
-                                    twoimagePath4,
-                                    selectedTypeValue2,
-                                    L1,
-                                    L2,
-                                    L3,
-                                    telephone,
-                                    onsite,
-                                    exchange,
-                                    cluster,
-                                    pia,
-                                    value!, // Pass the selected radio button value
-                                  );
-                                }
-                              },
-                            ),
-                            Text("Blockage"),
-                          ],
-                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Exchange",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Exchange",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10), // Adding spacing
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _exchangeController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Exchange Name',
-                      labelStyle: TextStyle(
-                        color: Color(0xff727171), // Font color
-                        fontSize: 12, // Font size
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
+                  SizedBox(height: 10), // Adding spacing
+        
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _exchangeController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Exchange Name',
+                        labelStyle: TextStyle(
+                          color: Color(0xff727171), // Font color
+                          fontSize: 12, // Font size
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Onsite Engineer",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Onsite Engineer",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                  SizedBox(height: 10), // Adding spacing
+        
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _onsiteController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Onsite Engineer Details',
+                        labelStyle: TextStyle(
+                          color: Color(0xff727171), // Font color
+                          fontSize: 12, // Font size
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Telephone No",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10), // Adding spacing
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _onsiteController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Onsite Engineer Details',
-                      labelStyle: TextStyle(
-                        color: Color(0xff727171), // Font color
-                        fontSize: 12, // Font size
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
+                  SizedBox(height: 10), // Adding spacing
+        
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _telephoneController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Onsite Telephone No',
+                        labelStyle: TextStyle(
+                          color: Color(0xff727171), // Font color
+                          fontSize: 12, // Font size
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "PIA Order No",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Telephone No",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                  SizedBox(height: 10), // Adding spacing
+        
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _piaController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter PIA Order No',
+                        labelStyle: TextStyle(
+                          color: Color(0xff727171), // Font color
+                          fontSize: 12, // Font size
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Color(0xFFC0D4AC), // Border color
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
                     ),
                   ),
-                ),
-                SizedBox(height: 10), // Adding spacing
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _telephoneController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Onsite Telephone No',
-                      labelStyle: TextStyle(
-                        color: Color(0xff727171), // Font color
-                        fontSize: 12, // Font size
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "PIA Order No",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10), // Adding spacing
-
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _piaController,
-                    decoration: InputDecoration(
-                      labelText: 'Enter PIA Order No',
-                      labelStyle: TextStyle(
-                        color: Color(0xff727171), // Font color
-                        fontSize: 12, // Font size
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Color(0xFFC0D4AC), // Border color
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20), // Adding spacing
-
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          right: 20), // Add space between buttons
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Add your onPressed logic here
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => A55_7Page(
-                                area: '',
-                                site: '',
-                                chamberid: '',
-                                imagePath: '',
-                                selectedTypeValue: '',
-                                chamberid2: '',
-                                imagePath2: '',
-                                selectedTypeValue2: '', imagePath3: '', imagePath4: '', twoimagePath1: '', twoimagePath2: '', twoimagePath3: '', twoimagePath4: '',
+                  SizedBox(height: 20), // Adding spacing
+        
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            right: 20), // Add space between buttons
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Add your onPressed logic here
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => A55_7Page(
+                                  area: '',
+                                  site: '',
+                                  chamberid: '',
+                                  imagePath: '',
+                                  selectedTypeValue: '',
+                                  chamberid2: '',
+                                  imagePath2: '',
+                                  selectedTypeValue2: '', imagePath3: '', imagePath4: '', twoimagePath1: '', twoimagePath2: '', twoimagePath3: '', twoimagePath4: '',
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
-                          onPrimary: Colors.green,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            onPrimary: Colors.green,
+                          ),
+                          child: Text("BACK"),
                         ),
-                        child: Text("BACK"),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 20), // Add space between buttons
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // Navigate to the new screen A55Form_3
-                          String cluster = _clusterController.text;
-                          String exchange = _exchangeController.text;
-                          String pia = _piaController.text;
-                          String onsite = _onsiteController.text;
-                          String telephone = _telephoneController.text;
-
-                          print(
-                              "1-----area value: $area"); // Print the area value to the console/ Print the area value to the console
-                          print("1---------site value: $site");
-
-                          print(
-                              "1-----chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
-
-                          print(
-                              "1-----image value: $imagePath"); // Print the area value to the console/ Print the area value to the console
-                          print(
-                              "1-----type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
-
-                          print(
-                              "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
-
-                          print(
-                              "2-----c_image value 2: $imagePath2"); // Print the area value to the console/ Print the area value to the console
-                          print("2-----ctype value: 2 $selectedTypeValue2");
-                          print("2-----LL1 $L1");
-                          print("2-----L2 $L2");
-                          print("2-----L3 $L3");
-
-                          print("2----cluster $cluster");
-                          print("2-----exchange $exchange");
-                          print("2-----pia $pia");
-                          print("2-----telephone $telephone");
-                          print("2-----onsittte $onsite");
-                          print("2-----raadio $value_radio");
-
-                          await sendFormData(
-                            area,
-                            site,
-                            chamberid,
-                             imagePath ,
-                                     imagePath2,
-                                     imagePath3,
-                                     imagePath4,
-                            selectedTypeValue,
-                            chamberid2,
-                            twoimagePath1,
-                                    twoimagePath2,
-                                    twoimagePath3,
-                                    twoimagePath4,
-                            selectedTypeValue2,
-                            L1,
-                            L2,
-                            L3,
-                            cluster,
-                            exchange,
-                            pia,
-                            telephone,
-                            onsite,
-                            value_radio!,
-                          );
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => A55_9Page(
-                                area: area,
-                            site: site,
-                            chamberid: chamberid,
-                           imagePath: imagePath,
-                          imagePath2: imagePath,
-                          imagePath3: imagePath,
-                          imagePath4: imagePath,
-                            selectedTypeValue: selectedTypeValue,
-                            chamberid2: chamberid2,
-                            twoimagePath1: twoimagePath1,
-                            twoimagePath2: twoimagePath2,
-                            twoimagePath3: twoimagePath3,
-                            twoimagePath4: twoimagePath4,
-                            selectedTypeValue2: selectedTypeValue2,
-                            L1:L1,
-                            L2:L2,
-                            L3:L3,
-                                cluster: cluster,
-                                exchange: exchange,
-                                pia: pia,
-                                telephone: telephone,
-                                onsite: onsite,
-                                radiowork: value_radio!,
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 20), // Add space between buttons
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            // Navigate to the new screen A55Form_3
+                             if (_formKey.currentState?.validate() ?? false) {
+ String? cluster = _clusterController?.text;
+                            String? exchange = _exchangeController?.text;
+                            String? pia = _piaController?.text;
+                            String? onsite = _onsiteController?.text;
+                            String? telephone = _telephoneController?.text;
+        
+                            print(
+                                "1-----area value: $area"); // Print the area value to the console/ Print the area value to the console
+                            print("1---------site value: $site");
+        
+                            print(
+                                "1-----chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
+        
+                            print(
+                                "1-----image value: $imagePath"); // Print the area value to the console/ Print the area value to the console
+                            print(
+                                "1-----type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
+        
+                            print(
+                                "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
+        
+                            print(
+                                "2-----c_image value 2: $imagePath2"); // Print the area value to the console/ Print the area value to the console
+                            print("2-----ctype value: 2 $selectedTypeValue2");
+                            print("2-----LL1 $L1");
+                            print("2-----L2 $L2");
+                            print("2-----L3 $L3");
+        
+                            print("2----cluster $cluster");
+                            print("2-----exchange $exchange");
+                            print("2-----pia $pia");
+                            print("2-----telephone $telephone");
+                            print("2-----onsittte $onsite");
+                            print("2-----raadio $value_radio");
+        
+                            await sendFormData(
+                              area,
+                              site,
+                              chamberid,
+                               imagePath ,
+                                       imagePath2,
+                                       imagePath3,
+                                       imagePath4,
+                              selectedTypeValue,
+                              chamberid2,
+                              twoimagePath1,
+                                      twoimagePath2,
+                                      twoimagePath3,
+                                      twoimagePath4,
+                              selectedTypeValue2,
+                              L1,
+                              L2,
+                              L3,
+                              cluster!,
+                              exchange!,
+                              pia!,
+                              telephone!,
+                              onsite!,
+                              value_radio!,
+                            );
+        
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => A55_9Page(
+                                  area: area,
+                              site: site,
+                              chamberid: chamberid,
+                             imagePath: imagePath,
+                            imagePath2: imagePath,
+                            imagePath3: imagePath,
+                            imagePath4: imagePath,
+                              selectedTypeValue: selectedTypeValue,
+                              chamberid2: chamberid2,
+                              twoimagePath1: twoimagePath1,
+                              twoimagePath2: twoimagePath2,
+                              twoimagePath3: twoimagePath3,
+                              twoimagePath4: twoimagePath4,
+                              selectedTypeValue2: selectedTypeValue2,
+                              L1:L1,
+                              L2:L2,
+                              L3:L3,
+                                  cluster: cluster,
+                                  exchange: exchange,
+                                  pia: pia,
+                                  telephone: telephone,
+                                  onsite: onsite,
+                                  radiowork: value_radio!,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
-                          onPrimary: Colors.white,
+                            );
+                             }
+                             else{
+                                MotionToast.error(
+                                title: Text("Missing Fields"),
+                                description: Text("Please fill missing required Fields"))
+                            .show(context);
+                              
+                             }
+                           
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.green,
+                            onPrimary: Colors.white,
+                          ),
+                          child: Text("NEXT"),
                         ),
-                        child: Text("NEXT"),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

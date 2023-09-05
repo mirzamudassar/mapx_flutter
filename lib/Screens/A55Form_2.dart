@@ -8,6 +8,7 @@ import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'A55Form_3.dart';
 import 'package:http/http.dart' as http;
 
@@ -168,9 +169,9 @@ Future<void> sendFormData(String area,String site) async {
 }
 
 
-
-  final TextEditingController _areaController = TextEditingController();
-  final TextEditingController _siteController = TextEditingController();
+ final _formKey = GlobalKey<FormState>(); // Define a form key
+  final TextEditingController? _areaController = TextEditingController();
+  final TextEditingController? _siteController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -179,167 +180,205 @@ Future<void> sendFormData(String area,String site) async {
       body: Padding(
         padding: EdgeInsets.all(20),
        
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-             SizedBox(height:100),
-            Center(
-              child: Text(
-                "Please fill in one form per blockage",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF6EB544),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child:FlutterMap(
-            options: MapOptions(
-              center: LatLng(51.509364, -0.128928),
-              zoom: 3.2,
-            ),
+        child: Form(
+           key: _formKey, // Assign the form key
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-              ),
-            ],
-          )
-            ),
-            SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Select Area",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
+               SizedBox(height:100),
+              Center(
+                child: Text(
+                  "Please fill in one form per blockage",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF6EB544),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _areaController,
-              decoration: InputDecoration(
-                labelText: "Enter area of blockage",
-                labelStyle: TextStyle(
-                  color: Color(0xff727171), // Font color
-                  fontSize: 12, // Font size
-                ),
-              
-                prefixIcon: Icon(
-                  Icons.location_on,
-                  color: Colors.green,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none, // Remove the border
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-                floatingLabelBehavior:
-                    FloatingLabelBehavior.never, // <- Add this line
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
-                  icon: Icon(Icons.edit),
-                ),
+              SizedBox(height: 20),
+              Expanded(
+                child:FlutterMap(
+              options: MapOptions(
+                center: LatLng(51.509364, -0.128928),
+                zoom: 3.2,
               ),
-            ),
-             SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Select Site",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _siteController,
-              decoration: InputDecoration(
-                labelText: "Enter site",
-                labelStyle: TextStyle(
-                  color: Color(0xff727171), // Font color
-                  fontSize: 12, // Font size
-                ),
-              
-              
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide.none, // Remove the border
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-                floatingLabelBehavior:
-                    FloatingLabelBehavior.never, // <- Add this line
-
-              ),
-            ),
-            SizedBox(height: 20),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(right: 20), // Add space between buttons
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Dashboard(),
-                        ),
-                      );
-                      // Add your onPressed logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.green,
-                    ),
-                    child: Text("BACK"),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 20), // Add space between buttons
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // Navigate to the new screen A55Form_3
-                   String area = _areaController.text;
-                   String site= _siteController.text;
-                   print("Area value: $area"); // Print the area value to the console
-                   print("Area value: $site"); // Print the area value to the console
-
-
-    // Call the API function to send the form data
-    await sendFormData(area,site);
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => A55_3Page(formData: area,formsite: site, ),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,   
-                      onPrimary: Colors.white,
-                    ),
-                    child: Text("NEXT"),
-                  ),
+                TileLayer(
+                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'com.example.app',
                 ),
               ],
-            ),
-          ],
+            )
+              ),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Select Area",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _areaController,
+                decoration: InputDecoration(
+                  labelText: "Enter area of blockage",
+                  labelStyle: TextStyle(
+                    color: Color(0xff727171), // Font color
+                    fontSize: 12, // Font size
+                  ),
+                
+                  prefixIcon: Icon(
+                    Icons.location_on,
+                    color: Colors.green,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none, // Remove the border
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  floatingLabelBehavior:
+                      FloatingLabelBehavior.never, // <- Add this line
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      // Add your onPressed logic here
+                    },
+                    icon: Icon(Icons.edit),
+                  ),
+                ),
+               validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+              ),
+               SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Select Site",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _siteController,
+                decoration: InputDecoration(
+                  labelText: "Enter site",
+                  labelStyle: TextStyle(
+                    color: Color(0xff727171), // Font color
+                    fontSize: 12, // Font size
+                  ),
+                
+                
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none, // Remove the border
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  floatingLabelBehavior:
+                      FloatingLabelBehavior.never, // <- Add this line
+        
+                ),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Dashboard(),
+                          ),
+                        );
+                        // Add your onPressed logic here
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.green,
+                      ),
+                      child: Text("BACK"),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // Navigate to the new screen A55Form_3
+
+                        if (_formKey.currentState?.validate() ?? false) {
+                        String? area = _areaController?.text;
+                        String? site = _siteController?.text;
+                        await sendFormData(area!, site!);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_3Page(
+                              formData: area,
+                              formsite: site,
+                            ),
+                          ),
+                        );
+                      }
+                      else{
+                         MotionToast.error(
+                                title: Text("Missing Fields"),
+                                description: Text("Please fill missing required Fields"))
+                            .show(context);
+                      }
+
+            //          String? area = _areaController?.text;
+            //             String? site = _siteController?.text;
+            //          print("Area value: $area"); // Print the area value to the console
+            //          print("Area value: $site"); // Print the area value to the console
+        
+        
+            // // Call the API function to send the form data
+            // await sendFormData(area!,site!);
+        
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                 builder: (context) => A55_3Page(formData: area,formsite: site, ),
+            //               ),
+            //             );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,   
+                        onPrimary: Colors.white,
+                      ),
+                      child: Text("NEXT"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

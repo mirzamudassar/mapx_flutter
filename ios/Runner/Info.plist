@@ -51,5 +51,10 @@
 	<string>Please allow access to photos to upload images of bloackage while filling forms.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow access to take photos of bloackage while filling forms.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location for this app</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location for this app</string>
+
 </dict>
 </plist>

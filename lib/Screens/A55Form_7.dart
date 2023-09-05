@@ -9,6 +9,7 @@ import 'package:mapx/Screens/A55Form_8.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class A55_7Page extends StatefulWidget {
   final String area;
@@ -427,6 +428,7 @@ class _A55_7PageWidgetsState extends State<A55_7PageWidgets> {
     }
   }
 
+final _formKey = GlobalKey<FormState>(); // Define a form key
   final TextEditingController _L1Controller = TextEditingController();
   final TextEditingController _L2Controller = TextEditingController();
   final TextEditingController _L3Controller = TextEditingController();
@@ -450,293 +452,326 @@ class _A55_7PageWidgetsState extends State<A55_7PageWidgets> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 120),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                "Please fill in one form per blockage",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF6EB544),
+        child: Form(
+          key: _formKey, // Assign the form key
+          child: Column(
+            children: [
+              SizedBox(height: 120),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  "Please fill in one form per blockage",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF6EB544),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                  width: double.infinity,
-                  height: 300,
-                  child: FlutterMap(
-                    options: MapOptions(
-                      center: LatLng(51.509364, -0.128928),
-                      zoom: 3.2,
-                    ),
-                    children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.app',
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                    width: double.infinity,
+                    height: 300,
+                    child: FlutterMap(
+                      options: MapOptions(
+                        center: LatLng(51.509364, -0.128928),
+                        zoom: 3.2,
                       ),
-                    ],
-                  )),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Enter L1",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20), // Adding spacing
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _L1Controller,
-                decoration: InputDecoration(
-                  labelText: 'Enter L1',
-                  labelStyle: TextStyle(
-                    color: Color(0xff727171), // Font color
-                    fontSize: 12, // Font size
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Enter L2",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20), // Adding spacing
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _L2Controller,
-                decoration: InputDecoration(
-                  labelText: 'Enter L2',
-                  labelStyle: TextStyle(
-                    color: Color(0xff727171), // Font color
-                    fontSize: 12, // Font size
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: EdgeInsets.only(left: 16),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Enter L3",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20), // Adding spacing
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: _L3Controller,
-                decoration: InputDecoration(
-                  labelText: 'Enter L3',
-                  labelStyle: TextStyle(
-                    color: Color(0xff727171), // Font color
-                    fontSize: 12, // Font size
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: Color(0xFFC0D4AC), // Border color
-                    ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(right: 20), // Add space between buttons
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Add your onPressed logic here
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => A55_6Page(
-                            area: '',
-                            site: '',
-                            chamberid: '',
-                            imagePath: '',
-                            selectedTypeValue: '', imagePath2: '', imagePath3: '', imagePath4: '',
-                          ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.example.app',
                         ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.green,
+                      ],
+                    )),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter L1",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
                     ),
-                    child: Text("BACK"),
                   ),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 20), // Add space between buttons
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      // Navigate to the new screen A55Form_3
-                      String L1 =
-                         _L1Controller.text;
-                     String L2 =
-                           _L2Controller.text;
-                      String L3 =
-                          _L3Controller.text;
+              ),
+              SizedBox(height: 20), // Adding spacing
+        
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextFormField(
+                  controller: _L1Controller,
+                  decoration: InputDecoration(
+                    labelText: 'Enter L1',
+                    labelStyle: TextStyle(
+                      color: Color(0xff727171), // Font color
+                      fontSize: 12, // Font size
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                   validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter L2",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20), // Adding spacing
+        
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextFormField(
+                  controller: _L2Controller,
+                  decoration: InputDecoration(
+                    labelText: 'Enter L2',
+                    labelStyle: TextStyle(
+                      color: Color(0xff727171), // Font color
+                      fontSize: 12, // Font size
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                   validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.only(left: 16),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter L3",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20), // Adding spacing
+        
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextFormField(
+                  controller: _L3Controller,
+                  decoration: InputDecoration(
+                    labelText: 'Enter L3',
+                    labelStyle: TextStyle(
+                      color: Color(0xff727171), // Font color
+                      fontSize: 12, // Font size
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: Color(0xFFC0D4AC), // Border color
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                   validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return '*';
+                  }
+                  return null;
+                },
+                ),
+                
+              ),
+              SizedBox(height: 20),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(right: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Add your onPressed logic here
+                       
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_6Page(
+                              area: '',
+                              site: '',
+                              chamberid: '',
+                              imagePath: '',
+                              selectedTypeValue: '', imagePath2: '', imagePath3: '', imagePath4: '',
+                            ),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.green,
+                      ),
+                      child: Text("BACK"),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 20), // Add space between buttons
+                    child: ElevatedButton(
+                      onPressed: () async {
+                         if (_formKey.currentState?.validate() ?? false) {
+                            String? L1 =
+                           _L1Controller?.text;
+                       String? L2 =
+                             _L2Controller?.text;
+                        String? L3 =
+                            _L3Controller?.text;
+                            
+        
+                        //     print(
+                        //     "1-----area value: $area"); // Print the area value to the console/ Print the area value to the console
+                        // print("1---------site value: $site");
+        
+                        // print(
+                        //     "1-----chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
+        
+                        // print(
+                        //     "1-----image value: $imagePath"); // Print the area value to the console/ Print the area value to the console
+                        // print(
+                        //     "1-----type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
+        
+                        // print(
+                        //     "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
+        
+                        print(
+                            "2-----c_image value 2: $imagePath2");
+                            print(
+                            "2-----c_image value 2: $twoimagePath2"); // Print the area value to the console/ Print the area value to the console
+                        print("2-----ctype value: 2 $selectedTypeValue2");
+                        print("2-----LL1 $L1");
+                        print("2-----L2 $L2");
+                        print("2-----L3 $L3");
+                        
+        
+                        // Call the API function to send the form data
+                        await sendFormData(
+                            area,
+                            site,
+                            chamberid,
+                            imagePath,imagePath2,imagePath3,imagePath4 ,
+                            selectedTypeValue,
+                            chamberid2,
+                           twoimagePath1, twoimagePath2, twoimagePath3, twoimagePath4,
+                            selectedTypeValue2,
+                            L1!,
+                            L2!,
+                            L3!,
+                            );
+        
+        
+        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => A55_8Page(
+                              area: area,
+                              site: site,
+                              chamberid: chamberid,
+                             imagePath: imagePath,
+                            imagePath2: imagePath,
+                            imagePath3: imagePath,
+                            imagePath4: imagePath,
+                              selectedTypeValue: selectedTypeValue,
+                              chamberid2: chamberid2,
+                              twoimagePath1: twoimagePath1,
+                              twoimagePath2: twoimagePath2,
+                              twoimagePath3: twoimagePath3,
+                              twoimagePath4: twoimagePath4,
+                              selectedTypeValue2: selectedTypeValue2,
+                              L1:L1,
+                              L2:L2,
+                              L3:L3,
+                            ),
+                          ),
+                        );
+        
+                        }
+                        else{
+                          MotionToast.error(
+                                title: Text("Missing Fields"),
+                                description: Text("Please fill missing required Fields"))
+                            .show(context);
                           
-
-                      //     print(
-                      //     "1-----area value: $area"); // Print the area value to the console/ Print the area value to the console
-                      // print("1---------site value: $site");
-
-                      // print(
-                      //     "1-----chamber id value: $chamberid"); // Print the area value to the console/ Print the area value to the console
-
-                      // print(
-                      //     "1-----image value: $imagePath"); // Print the area value to the console/ Print the area value to the console
-                      // print(
-                      //     "1-----type value: $selectedTypeValue"); // Print the area value to the console/ Print the area value to the console
-
-                      // print(
-                      //     "2-----chamber id 2 value: $chamberid2"); // Print the area value to the console/ Print the area value to the console
-
-                      print(
-                          "2-----c_image value 2: $imagePath2");
-                          print(
-                          "2-----c_image value 2: $twoimagePath2"); // Print the area value to the console/ Print the area value to the console
-                      print("2-----ctype value: 2 $selectedTypeValue2");
-                      print("2-----LL1 $L1");
-                      print("2-----L2 $L2");
-                      print("2-----L3 $L3");
-                      
-
-                      // Call the API function to send the form data
-                      await sendFormData(
-                          area,
-                          site,
-                          chamberid,
-                          imagePath,imagePath2,imagePath3,imagePath4 ,
-                          selectedTypeValue,
-                          chamberid2,
-                         twoimagePath1, twoimagePath2, twoimagePath3, twoimagePath4,
-                          selectedTypeValue2,
-                          L1,
-                          L2,
-                          L3,
-                          );
-
-
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => A55_8Page(
-                            area: area,
-                            site: site,
-                            chamberid: chamberid,
-                           imagePath: imagePath,
-                          imagePath2: imagePath,
-                          imagePath3: imagePath,
-                          imagePath4: imagePath,
-                            selectedTypeValue: selectedTypeValue,
-                            chamberid2: chamberid2,
-                            twoimagePath1: twoimagePath1,
-                            twoimagePath2: twoimagePath2,
-                            twoimagePath3: twoimagePath3,
-                            twoimagePath4: twoimagePath4,
-                            selectedTypeValue2: selectedTypeValue2,
-                            L1:L1,
-                            L2:L2,
-                            L3:L3,
-                          ),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.green,
-                      onPrimary: Colors.white,
+                        }
+                        // Navigate to the new screen A55Form_3
+                                    },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green,
+                        onPrimary: Colors.white,
+                      ),
+                      child: Text("NEXT"),
                     ),
-                    child: Text("NEXT"),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
