@@ -52,6 +52,7 @@ dependencies:
   motion_toast: ^2.7.8
   geolocator: ^10.0.0
   geocoding: ^2.1.0
+  permission_handler: ^10.4.3
  
 dev_dependencies:
   flutter_test:

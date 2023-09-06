@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -10,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:geolocator/geolocator.dart';
 
 class Network extends StatefulWidget {
   const Network  ({super.key});
@@ -178,12 +179,118 @@ class NetworkWidgets extends StatefulWidget {
 
 class _NetworkWidgetsState extends State<NetworkWidgets> {
    String userId = '';
+    bool servicestatus = false;
+  bool haspermission = false;
+  late LocationPermission permission;
+  late Position position;
+       String long = "", lat = "";
+    late TextEditingController latitudeController;
+late TextEditingController longitudeController;
+  late StreamSubscription<Position> positionStream;
+
 
   @override
   void initState() {
+    checkGps();
+    latitudeController = TextEditingController();
+  longitudeController = TextEditingController();
+  _loadLatLngFromSharedPreferences();
     super.initState();
     _loadUserId();
   }
+
+  // Load latitude and longitude from shared preferences
+_loadLatLngFromSharedPreferences() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    lat = prefs.getString('latitude') ?? ""; // Load latitude from shared preferences
+    long = prefs.getString('longitude') ?? ""; // Load longitude from shared preferences
+    latitudeController.text = lat; // Set the controller text
+    longitudeController.text = long; // Set the controller text
+  });
+}
+
+// Save latitude and longitude to shared preferences
+_saveLatLngToSharedPreferences() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('latitude', lat); // Save latitude to shared preferences
+  prefs.setString('longitude', long); // Save longitude to shared preferences
+}
+
+  checkGps() async {
+      servicestatus = await Geolocator.isLocationServiceEnabled();
+      if(servicestatus){
+            permission = await Geolocator.checkPermission();
+          
+            if (permission == LocationPermission.denied) {
+                permission = await Geolocator.requestPermission();
+                if (permission == LocationPermission.denied) {
+                    print('Location permissions are denied');
+                }else if(permission == LocationPermission.deniedForever){
+                    print("'Location permissions are permanently denied");
+                }else{
+                   haspermission = true;
+                }
+            }else{
+               haspermission = true;
+            }
+
+            if(haspermission){
+                setState(() {
+                  //refresh the UI
+                });
+
+                getLocation();
+            }
+      }else{
+        print("GPS Service is not enabled, turn on GPS location");
+      }
+
+      setState(() {
+         //refresh the UI
+      });
+  }
+
+  getLocation() async {
+      position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      print(position.longitude); //Output: 80.24599079
+      print(position.latitude); //Output: 29.6593457
+
+      long = position.longitude.toString();
+      lat = position.latitude.toString();
+      // Update the controllers
+  latitudeController.text = lat;
+  longitudeController.text = long;
+
+   _saveLatLngToSharedPreferences();
+
+
+      setState(() {
+         //refresh UI
+      });
+
+      LocationSettings locationSettings = LocationSettings(
+            accuracy: LocationAccuracy.high, //accuracy of the location data
+            distanceFilter: 100, //minimum distance (measured in meters) a 
+                                 //device must move horizontally before an update event is generated;
+      );
+
+      StreamSubscription<Position> positionStream = Geolocator.getPositionStream(
+            locationSettings: locationSettings).listen((Position position) {
+            print(position.longitude); //Output: 80.24599079
+            print(position.latitude); //Output: 29.6593457
+
+            long = position.longitude.toString();
+            lat = position.latitude.toString();
+            
+
+            setState(() {
+              //refresh UI on update
+              
+            });
+      });
+  }
+  
 
   _loadUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -209,8 +316,8 @@ class _NetworkWidgetsState extends State<NetworkWidgets> {
   TextEditingController issue1Controller = TextEditingController();
   TextEditingController cpNameController = TextEditingController();
   TextEditingController idPoleController = TextEditingController();
-  TextEditingController latitudeController = TextEditingController();
-  TextEditingController longitudeController = TextEditingController();
+  // TextEditingController latitudeController = TextEditingController();
+  // TextEditingController longitudeController = TextEditingController();
   TextEditingController adressController = TextEditingController();
   TextEditingController issue2Controller = TextEditingController();
   TextEditingController issueNoteController = TextEditingController();
@@ -236,8 +343,8 @@ Future<void> _submitForm() async {
          "user_id":  userId,
         "site": siteController.text,
         "area": areaController.text,
-        "lat": latitudeController.text,
-        "lng": longitudeController.text,
+        "lat": lat,
+        "lng": long,
         "exchange": exchangeController.text,
         "crf": crfController.text,
         "or_reference": orReferenceController.text,
@@ -340,6 +447,13 @@ Future<void> _submitForm() async {
           child: Column(
             children: [
               SizedBox(height: 110),
+
+                    //   Text(servicestatus? "GPS is Enabled": "GPS is disabled."),
+                    //  Text(haspermission? "GPS is Enabled": "GPS is disabled."),
+                     
+                    //  Text("Longitude: $long", style:TextStyle(fontSize: 20)),
+                    //  Text("Latitude: $lat", style: TextStyle(fontSize: 20),),
+
            
               RoundedTextField(
               label: "Site",
@@ -413,7 +527,7 @@ Future<void> _submitForm() async {
               },),
              
               SizedBox(height: 35),
-              RoundedTextField(controller: latitudeController,label: "Latitude", hintText: "Enter Latitude",validator: (controller) {
+              RoundedTextField(controller: latitudeController,label: "Latitude", hintText: lat,validator: (controller) {
                 if (controller== null || controller.isEmpty) {
                   return '*';
                 }
