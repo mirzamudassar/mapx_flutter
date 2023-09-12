@@ -45,7 +45,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.0.0
   flutter_polyline_points: ^2.0.0
-  location: ^5.0.3
+  location: ^5.0.0
   flutter_map: ^5.0.0 # Replace with the desired version of flutter_map
   latlong2: ^0.9.0
   shared_preferences: ^2.0.8
@@ -53,6 +53,7 @@ dependencies:
   geolocator: ^10.0.0
   geocoding: ^2.1.0
   permission_handler: ^10.4.3
+  google_maps_flutter: ^2.1.1
  
 dev_dependencies:
   flutter_test:
