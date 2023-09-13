@@ -8,18 +8,27 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
+<<<<<<< Updated upstream
     flutterVersionCode = '1'
 }   
+=======
+    flutterVersionCode = '16'
+}
+>>>>>>> Stashed changes
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '2.0.2'
 }
 
 apply plugin: 'com.android.application'
@@ -35,25 +44,33 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 android {
-    namespace "com.netsinternational.netsmapx"
+//    namespace "com.netsinternational.netsmapx"
+    namespace "com.netsInternational.netsxmap"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
-
+//    ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
+
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.netsinternational.netsmapx"
+//        applicationId "com.netsinternational.netsmapx"
+        applicationId "com.netsInternational.netsxmap"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         // minSdkVersion flutter.minSdkVersion
         minSdkVersion 20
+<<<<<<< Updated upstream
         targetSdkVersion flutter.targetSdkVer sion
+=======
+        targetSdkVersion flutter.targetSdkVersion
+>>>>>>> Stashed changes
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -77,7 +94,9 @@ android {
         }
     }
 }
-
+dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+}
 flutter {
     source '../..'
 }
