@@ -8,23 +8,14 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-<<<<<<< Updated upstream
-    
-=======
 
->>>>>>> Stashed changes
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-<<<<<<< Updated upstream
-    flutterVersionCode = '1'
-}   
-=======
     flutterVersionCode = '16'
 }
->>>>>>> Stashed changes
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
@@ -63,11 +54,7 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         // minSdkVersion flutter.minSdkVersion
         minSdkVersion 20
-<<<<<<< Updated upstream
-        targetSdkVersion flutter.targetSdkVer sion
-=======
         targetSdkVersion flutter.targetSdkVersion
->>>>>>> Stashed changes
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
