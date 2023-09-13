@@ -451,7 +451,7 @@ class DashboardCards extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(30), // Add padding if needed
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
@@ -466,7 +466,7 @@ class DashboardCards extends StatelessWidget {
                         fontSize: 12, color: Color.fromRGBO(91, 91, 91, 1.0))),
               ],
             ),
-            const SizedBox(width: 40),
+            // const SizedBox(width: 30),
             Column(
               children: [
                 Image.asset("assets/images/InProgress.png", width: 24),
@@ -480,7 +480,7 @@ class DashboardCards extends StatelessWidget {
                         fontSize: 12, color: Color.fromRGBO(91, 91, 91, 1.0))),
               ],
             ),
-            const SizedBox(width: 40),
+            // const SizedBox(width: 30),
             Column(
               children: [
                 Image.asset("assets/images/Draft2.png", width: 24),

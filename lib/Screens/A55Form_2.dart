@@ -178,7 +178,7 @@ Future<void> sendFormData(String area,String site) async {
     return Scaffold(
     
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(5),
        
         child: Form(
            key: _formKey, // Assign the form key
@@ -377,6 +377,7 @@ Future<void> sendFormData(String area,String site) async {
                   ),
                 ],
               ),
+              SizedBox(height:20),
             ],
           ),
         ),

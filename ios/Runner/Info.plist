@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location for this app</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location for this app</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -30,16 +26,20 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to take photos of bloackage while filling forms.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Needed to access location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Needed to access location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow access to photos to upload images of bloackage while filling forms.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Needed to access location</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Needed to access location</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -55,10 +55,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow access to photos to upload images of bloackage while filling forms.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow access to take photos of bloackage while filling forms.</string>
-	
 </dict>
 </plist>
