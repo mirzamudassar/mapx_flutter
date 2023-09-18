@@ -37,13 +37,12 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "com.netsinternational.netsmapx"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.netsinternational.netsmapx"
@@ -51,7 +50,7 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         // minSdkVersion flutter.minSdkVersion
         minSdkVersion 20
-        targetSdkVersion flutter.targetSdkVer sion
+        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -77,7 +76,10 @@ android {
         }
     }
 }
-
+dependencies {
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+}
 flutter {
     source '../..'
 }
