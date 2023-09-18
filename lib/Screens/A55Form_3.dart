@@ -9,10 +9,12 @@ import 'package:mapx/Screens/A55Form_2.dart';
 import 'package:mapx/Screens/A55Form_6.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+// import 'package:latlong2/latlong.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'A55Form_4.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class A55_3Page extends StatefulWidget {
   final String formData;
@@ -252,6 +254,44 @@ class A55_3PageWidgets extends StatefulWidget {
 }
 
 class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
+  
+   GoogleMapController? mapController;
+
+  LocationData? currentLocation;
+
+  Location location = Location();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    location.onLocationChanged.listen((LocationData newLocation) {
+      setState(() {
+        currentLocation = newLocation;
+      });
+
+      if (mapController != null) {
+        mapController!.animateCamera(
+          CameraUpdate.newLatLng(
+            LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          ),
+        );
+      }
+    });
+
+    // Request the user's location when the app starts
+
+    getLocation();
+  }
+
+  Future<void> getLocation() async {
+    try {
+      currentLocation = await location.getLocation();
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
 // Initialize with an invalid value
   File? _image;
   File? _image2;
@@ -364,7 +404,7 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
            key: _formKey, // Assign the form key
           child: Column(
             children: [
-              SizedBox(height: 120),
+              SizedBox(height: 60),
               Align(
                 alignment: Alignment.topCenter,
                 child: Text(
@@ -383,19 +423,25 @@ class _A55_3PageWidgetsState extends State<A55_3PageWidgets> {
                 child: Container(
                     width: double.infinity,
                     height: 300,
-                    child: FlutterMap(
-                      options: MapOptions(
-                        center: LatLng(51.509364, -0.128928),
-                        zoom: 3.2,
+                    child: GoogleMap(
+              onMapCreated: (controller) {
+                setState(() {
+                  mapController = controller;
+                });
+              },
+              initialCameraPosition: currentLocation != null
+                  ? CameraPosition(
+                      target: LatLng(
+                        currentLocation!.latitude!,
+                        currentLocation!.longitude!,
                       ),
-                      children: [
-                        TileLayer(
-                          urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.example.app',
-                        ),
-                      ],
-                    )),
+                      zoom: 15.0,
+                    )
+                  : CameraPosition(
+                      target: LatLng(0, 0),
+                      zoom: 15.0,
+                    ),
+            )),
               ),
               SizedBox(height: 20),
               Padding(

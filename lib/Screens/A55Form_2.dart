@@ -7,10 +7,14 @@ import 'package:mapx/Modals/Draft.dart';
 import 'package:mapx/Screens/Dashboard.dart';
 import 'package:mapx/Screens/SideMenu.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+// import 'package:latlong2/latlong.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'A55Form_3.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:location/location.dart';
+
 
 class A55_2Page extends StatefulWidget {
   const A55_2Page ({super.key});
@@ -150,6 +154,44 @@ class A55_2PageWidgets extends StatefulWidget {
 
 class _A55_2PageWidgetsState extends State<A55_2PageWidgets> {
 
+   GoogleMapController? mapController;
+
+  LocationData? currentLocation;
+
+  Location location = Location();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    location.onLocationChanged.listen((LocationData newLocation) {
+      setState(() {
+        currentLocation = newLocation;
+      });
+
+      if (mapController != null) {
+        mapController!.animateCamera(
+          CameraUpdate.newLatLng(
+            LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+          ),
+        );
+      }
+    });
+
+    // Request the user's location when the app starts
+
+    getLocation();
+  }
+
+  Future<void> getLocation() async {
+    try {
+      currentLocation = await location.getLocation();
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
+
 Future<void> sendFormData(String area,String site) async {
   final apiUrl = "https://test2.nets-x-map.com/mobileA55Post"; // Replace with your API URL
 
@@ -169,6 +211,8 @@ Future<void> sendFormData(String area,String site) async {
 }
 
 
+
+
  final _formKey = GlobalKey<FormState>(); // Define a form key
   final TextEditingController? _areaController = TextEditingController();
   final TextEditingController? _siteController = TextEditingController();
@@ -178,14 +222,14 @@ Future<void> sendFormData(String area,String site) async {
     return Scaffold(
     
       body: Padding(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(20),
        
         child: Form(
            key: _formKey, // Assign the form key
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               SizedBox(height:100),
+               SizedBox(height:40),
               Center(
                 child: Text(
                   "Please fill in one form per blockage",
@@ -198,17 +242,24 @@ Future<void> sendFormData(String area,String site) async {
               ),
               SizedBox(height: 20),
               Expanded(
-                child:FlutterMap(
-              options: MapOptions(
-                center: LatLng(51.509364, -0.128928),
-                zoom: 3.2,
-              ),
-              children: [
-                TileLayer(
-                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.example.app',
-                ),
-              ],
+                child:  GoogleMap(
+              onMapCreated: (controller) {
+                setState(() {
+                  mapController = controller;
+                });
+              },
+              initialCameraPosition: currentLocation != null
+                  ? CameraPosition(
+                      target: LatLng(
+                        currentLocation!.latitude!,
+                        currentLocation!.longitude!,
+                      ),
+                      zoom: 15.0,
+                    )
+                  : CameraPosition(
+                      target: LatLng(0, 0),
+                      zoom: 15.0,
+                    ),
             )
               ),
               SizedBox(height: 20),
